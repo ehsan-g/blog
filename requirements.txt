@@ -1,0 +1,6 @@
+wtforms
+namegenerator
+Flask
+Flask-Session
+psycopg2-binary
+SQLAlchemy

@@ -1,0 +1,3 @@
+#  SAY blog
+
+First step toward the media...
