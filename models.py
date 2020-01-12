@@ -7,11 +7,13 @@ db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
-    wikid = db.Column(db.String, nullable=False)
+    say_id = db.Column(db.String, nullable=False)
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String(120), index=True, unique=True)
     password = db.Column(db.String(128), nullable=False)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    edit_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
 
 
 
@@ -27,13 +29,11 @@ class Post(db.Model):
 
 
 
-class User(db.Model):
-    __tablename__ = "users"
+class Comment(db.Model):
+    __tablename__ = "comments"
     id = db.Column(db.Integer, primary_key=True)
-    wikid = db.Column(db.String, nullable=False)
-    name = db.Column(db.String, nullable=False)
-    email = db.Column(db.String(120), index=True, unique=True)
-    password = db.Column(db.String(128), nullable=False)
+    content = db.Column(db.String, nullable=False)
+    author = db.Column(db.String, nullable=False)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
 
