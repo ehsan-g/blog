@@ -3,8 +3,9 @@
 
 ## Introduction 
 
-As project SAY was founded base on believing in an
-open-source world. We are developing a blog to contribute to world
+As project SAY was founded base on the philosophy of an
+open-source world. We are developing a blog/media to contribute even further.
+This project will be designed and developed from scratch to fulfill SAY company needs in every steps.
 
      
 
