@@ -153,7 +153,7 @@ post was used for better understanding of Designing a RESTful API with Python an
 “One small step for man, one giant leap for mankind.” 
 
 - [x] Create DataBase
-- [ ] Receive the wireframes
+- [x] Receive the wireframes
 - [ ] build backEnd
 - [ ] build the front templates
 - [ ] Push my commits to Git
