@@ -1,13 +1,15 @@
 from models import *
 from app import app
 
+
 app.config["SQLALCHEMY_DATABASE_URI"] = ("postgresql://postgres:postgres@localhost")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
-todo = ""
-
 
 with app.app_context():
+
+    todo = ""
+
     while todo != "Exit":
         todo = ""
         db.session.commit()
@@ -18,7 +20,13 @@ with app.app_context():
             print("Consider it Done")
 
         elif todo == "Create":
-
+            try:
+                user = User.query.get(2)
+            except:
+                user = None
+            if user:
+                print("Shit it exists!")
+            else:
                 db.session.commit()
                 db.create_all()
                 print("Done")

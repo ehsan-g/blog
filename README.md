@@ -1,11 +1,11 @@
-# SAY blog
+# saY blog
 
 
 ## Introduction 
 
-As project SAY was founded base on the philosophy of an
+As project saY was founded base on the philosophy of an
 open-source world. We are developing a blog/media to contribute even further.
-This project will be designed and developed from scratch to fulfill SAY company needs in every steps.
+This project will be designed and developed from scratch to fulfill saY company needs in every steps.
 All the library are linked to their documents for installation and further reading.
 
      
@@ -88,10 +88,10 @@ Our tasks resource will use HTTP methods as follows:
 5- [Flask-Login](https://flask-login.readthedocs.io/en/latest/)
 
 It will:
-- Store the active user’s ID in the session, and let you log them in and out easily.
+- Store the active user’s ID in the sessionion, and let you log them in and out easily.
 - Let you restrict views to logged-in (or logged-out) users.
 - Handle the normally-tricky “remember me” functionality.
-- Help protect your users’ sessions from being stolen by cookie thieves.
+- Help protect your users’ sessionions from being stolen by cookie thieves.
 - Possibly integrate with Flask-Principal or other authorization extensions later on.
 
 However, it does not:
@@ -159,7 +159,7 @@ post was used for better understanding of Designing a RESTful API with Python an
 - [ ] Push my commits to Git
 - [ ] Open a pull request
 - [ ] Finish changes
-- [ ] Time to SAY it.
+- [ ] Time to saY it.
 - [ ] Adding more features.
 
 

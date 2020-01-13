@@ -1,6 +1,6 @@
 wtforms
-namegenerator
 Flask
-Flask-Session
+Flask-sasessionionion
 psycopg2-binary
 SQLAlchemy
+SQLAlchemy-Continuum
