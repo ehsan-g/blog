@@ -150,7 +150,7 @@ This project is licensed under pendara.co
 -  [Miguel Grinberg](https://blog.miguelgrinberg.com/post/designing-a-restful-api-with-python-and-flask) 's 
 post was used for better understanding of Designing a RESTful API with Python and Flask
 
-“That's one small step for man, one giant leap for mankind.” 
+“One small step for man, one giant leap for mankind.” 
 
 - [x] Create DataBase
 - [ ] Receive the wireframes
