@@ -1,14 +1,14 @@
-#SAY blog
+# SAY blog
 
 
-##Introduction 
+## Introduction 
 
 As project SAY was founded base on believing in an
 open-source world. We are developing a blog to contribute to world
 
      
 
-##Project Title
+## Project Title
 
 One Paragraph of project description goes here
 Getting Started
@@ -20,7 +20,7 @@ What things you need to install the software and how to install them
 
 Give examples
 
-##Libraries
+## Libraries
 
 1. SQLAlchemy-Continuum
 2. SQLAlchemy-Utils
@@ -122,19 +122,19 @@ The above Flask app will have the following rate limiting characteristics:
 
    
 
-##Running the tests
+## Running the tests
 
 I have no clue yet.
 
-##And coding style tests
+## And coding style tests
 
 I will be using PEP 8 styling for this project
 
-##Deployment
+## Deployment
 
 I have no clue yet.
 
-##Built With
+## Built With
 
 - Python - Flask
 - SQLAlchemy
@@ -142,19 +142,19 @@ I have no clue yet.
 - HTML, Bootstrap, JavaScript
 
 
-##Versioning
+## Versioning
 
 I will be using SQLAlchemy-Continuum for further versioning.
 
-##Author
+## Author
 
 Ehsan Ghasemi 
 
-##License
+## License
 
 This project is licensed under pendara.co
 
-##Acknowledgments
+## Acknowledgments
 
 “That's one small step for man, one giant leap for mankind.” 
 
