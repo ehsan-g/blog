@@ -21,7 +21,7 @@ with app.app_context():
 
         elif todo == "Create":
             try:
-                user = User.query.get(2)
+                user = User.query.geCt(2)
             except:
                 user = None
             if user:

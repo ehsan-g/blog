@@ -6,11 +6,11 @@ from app import app, dbsession
 # the first time, the following things become available:
 
 version_class(User)  # User History class
-parent_class(version_class(User)) # User class
+parent_class(version_class(User))  # User class
 
 
 with app.app_context():
-    user = User(name='user1', email='@email', password='12345')
+    user = User(name='', email='kk$@Dail', password='12jj345')
     dbsession.add(user)
     dbsession.commit()
 
@@ -19,6 +19,8 @@ with app.app_context():
     user.name = 'user2'
     dbsession.commit()
 
+    user.name = 'user3'
+    dbsession.commit()
 
-    user.versions[0].revert()
+    user.versions[1].revert()
     dbsession.commit()
