@@ -3,10 +3,9 @@
 
 {% block body %}
 
-<div class="container text-light" >
-    <div class="container" style="height: 100px"></div>
+<div  id="loginPage" class="container text-light" >
+    <div class="container" ></div>
     <h2 class="text-secondary"> Login to continue</h2>
-
     <form action="{{ url_for('login_check')}}" method="post">
         <div class="form-group">
             <label for="email">Email:</label>

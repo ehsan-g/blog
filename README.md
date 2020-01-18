@@ -14,10 +14,11 @@ All the library are linked to their documents for installation and further readi
 1. SQLAlchemy-Continuum
 2. Cerberus
 3 .SQLAlchemy-Utils
-4. Flask-RESTful API
-5. Flask-WTF
-6. Flask-Login
-7. Flask-Limiter
+4. Image (To be Decided)
+5. Flask-RESTful API
+6. Flask-WTF
+7. Flask-Login
+8. Flask-Limiter
 
 
 1- [SQLAlchemy-Continuum](https://sqlalchemy-continuum.readthedocs.io/en/latest/intro.html#why)
@@ -53,8 +54,14 @@ Various utility functions, new data types and helpers for SQLAlchemy
 - Model mixins: Timestamp (created, updated times)
     
 
+4- Media ( To Be Decided )
 
-4- [Flask-RESTful API](https://flask-restful.readthedocs.io/en/latest/quickstart.html)
+- In DB or FileSystem
+- Using Blob or Libraries such as: Python Imaging Library, Flask-AppBuilder, SQLAlchemy-ImageAttach or sqlalchemy-media
+ 
+
+
+5- [Flask-RESTful API](https://flask-restful.readthedocs.io/en/latest/quickstart.html)
 
 example of a simple application: we only have tasks, 
 so our only resource will be the tasks in our to do list.
@@ -80,7 +87,7 @@ Our tasks resource will use HTTP methods as follows:
 
 
 
-5- [Flask-WTF](https://flask-wtf.readthedocs.io/en/stable/)
+6- [Flask-WTF](https://flask-wtf.readthedocs.io/en/stable/)
 
 - Integration with WTForms.
 - Secure Form with CSRF token.
@@ -90,7 +97,7 @@ Our tasks resource will use HTTP methods as follows:
 - Internationalization using Flask-Babel.
 
 
-6- [Flask-Login](https://flask-login.readthedocs.io/en/latest/)
+7- [Flask-Login](https://flask-login.readthedocs.io/en/latest/)
 
 It will:
 - Store the active user’s ID in the sessionion, and let you log them in and out easily.
@@ -107,7 +114,7 @@ However, it does not:
 
 
 
-7- [Flask-Limiter](https://flask-limiter.readthedocs.io/en/stable/)
+8- [Flask-Limiter](https://flask-limiter.readthedocs.io/en/stable/)
 
 The above Flask app will have the following rate limiting characteristics:
    

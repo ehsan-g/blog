@@ -1,7 +1,5 @@
-from app import dbsession
-from models import *
-
 from cerberus import Validator
+
 
 # Check error example
 def f_name(field, value, error):
@@ -16,21 +14,14 @@ schema = {'name': {'check_with': f_name, 'required': True, 'minlength': 4, 'maxl
           'role': {'type': 'list', 'allowed': ['Nakama', 'admin', 'Admin']}
           }
 
-document = {'name': 'Ehsan', 'email': 'dr@dfxdrfr.comd', 'password': 'cccdddd', 'role': ['Admin']}
+# document = {'name': 'Ehsan', 'email': 'yeee@dd.company', 'password': '123456', 'role': ['Admin']}
+
 
 # Unlike other validation tools, Cerberus will not halt and raise an exception on the first validation issue.
 # The whole document will always be processed, and False will be returned if validation failed.
 v = Validator()
 
-# validate all
-if not v.validate(document, schema):
-      print('Try again because:', v.errors)
 
-# insert to db if validated
-else:
-    user = User(name=document['name'], email=document['email'], password=document['password'], role=document['role'])
-    dbsession.add(user)
-    dbsession.commit()
 
 
 

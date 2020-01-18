@@ -1,8 +1,21 @@
 <component name="ProjectDictionaryState">
   <dictionary name="ehsan">
     <words>
+      <w>dbdata</w>
+      <w>dbemail</w>
+      <w>dbpass</w>
+      <w>galimg</w>
+      <w>galimgtxt</w>
+      <w>galtext</w>
+      <w>galtitle</w>
+      <w>madjeed</w>
+      <w>mainimg</w>
+      <w>mainp</w>
+      <w>secondp</w>
       <w>sqlalchemy</w>
       <w>tablename</w>
+      <w>thirdp</w>
+      <w>uptitle</w>
     </words>
   </dictionary>
 </component>

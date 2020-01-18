@@ -1,14 +1,35 @@
 <html>
 <head>
-    <script src=""></script>
-    <title>Currency Converter</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!--          ViewPort -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--          Custom CSS-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!--          Font-->
+    <link rel="stylesheet" href="/static/font/WebFonts/css/fontiran.css" />
+    <!--          Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--          Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/blog/static/css/lib/materialize.min.css"  media="screen,projection"/>
 </head>
-<body>
-<form id="form">
-    <input id="currency" autocomplete="off" autofocus placeholder="Currency" type="text">
-    <input type="text" value="Get Exchange Rate">
-</form>
-<br>
-<div id="result"></div>
+
+<body class="container">
+
+<div class="card">
+    <div class="card-image waves-effect waves-block waves-light">
+        <img class="activator" src="static/img/office.jpg">
+    </div>
+    <div class="card-content">
+        <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+        <p><a href="#">This is a link</a></p>
+    </div>
+    <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+        <p>Here is some more information about this product that is only revealed once clicked on.</p>
+    </div>
+</div>
+<script type="text/javascript" src="/blog/static/js/lib/materialize.min.js"></script>
 </body>
 </html>
+
