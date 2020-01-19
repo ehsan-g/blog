@@ -1,7 +1,8 @@
 // Start with first post.
-let counter = 1;
-// Load posts at a time.
-const quantity = 9;
+counter = 0;
+// Load posts 20 at a time.
+quantity = 5;
+// let the window scroll function load
 
 
 // When DOM loads, render the first 9 posts.
@@ -11,9 +12,8 @@ document.addEventListener('DOMContentLoaded', load);
 window.onscroll = () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         load();
-    }
+        }
 };
-
 // Load next set of posts.
 function load() {
 
@@ -22,18 +22,22 @@ function load() {
     const end = start + quantity - 1;
     counter = end + 1;
 
+
     // Open new request to get new posts.
     const request = new XMLHttpRequest();
-    request.open('POST', '/posts');
+    console.log(request);
+    request.open('POST', '/api/users/12');
+
     // For each set of data received, add a card
     request.onload = () => {
-        const data = JSON.parse(request.responseText);
+        const data = JSON.parse(request.response);
         data.forEach(add_post);
-    };
 
-    // Add start and end points to request data.  first 1 and 9
+    };
+    // Add start and end points to request data.
     const data = new FormData();
-    data.append('start', start);
+    data.append("start", start);
+    console.log(start ,end, data);
     data.append('end', end);
 
     // Send request.
@@ -41,13 +45,11 @@ function load() {
 };
 
 // Add a new post with given contents to DOM.
-function add_post(contents) {
-
+function add_post(content) {
     // Create first Div.
     const card = document.createElement('div');
     card.className = 'col s4 z-depth-2 card post';
     // card.innerHTML = contents;
-
     const imageContainer = document.createElement('div');
     imageContainer.className = 'card-image waves-effect waves-block waves-light';
 
@@ -63,7 +65,7 @@ function add_post(contents) {
     theSpan.className = 'card-title activator grey-text text-darken-4';
     const theI = document.createElement("i");
     theI.className = 'material-icons right';
-    const spanText = document.createTextNode(contents);
+    const spanText = document.createTextNode(content.title);
     const iText = document.createTextNode('more_vert');
 
     const theP = document.createElement('p');

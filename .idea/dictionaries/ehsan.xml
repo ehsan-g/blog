@@ -4,6 +4,7 @@
       <w>dbdata</w>
       <w>dbemail</w>
       <w>dbpass</w>
+      <w>dbsession</w>
       <w>galimg</w>
       <w>galimgtxt</w>
       <w>galtext</w>
@@ -11,6 +12,7 @@
       <w>madjeed</w>
       <w>mainimg</w>
       <w>mainp</w>
+      <w>postgresql</w>
       <w>secondp</w>
       <w>sqlalchemy</w>
       <w>tablename</w>
