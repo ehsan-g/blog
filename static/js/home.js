@@ -1,7 +1,7 @@
 // Start with first post.
-counter = 0;
+counter = 1;
 // Load posts 20 at a time.
-quantity = 5;
+quantity = 4;
 // let the window scroll function load
 
 
@@ -26,7 +26,7 @@ function load() {
     // Open new request to get new posts.
     const request = new XMLHttpRequest();
     console.log(request);
-    request.open('POST', '/api/users/12');
+    request.open('POST', '/api/users/all');
 
     // For each set of data received, add a card
     request.onload = () => {

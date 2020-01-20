@@ -31,13 +31,13 @@ class User(db.Model):
 
     def add_post(self, aut_fav, uptitle, title, mainp, mainimg, title2, secondp, video, galtitle, galtext, galimg1,
                  galimgtxt1, galimg2, galimgtxt2, galimg3, galimgtxt3, galimg4, galimgtxt4, galimg5, galimgtxt5,
-                 galimg6, galimgtxt6, tittle3, subtitle, thirdp, duration):
+                 galimg6, galimgtxt6, tittle3, subtitle, thirdp, hashtags, duration):
         p = Post(aut_fav=aut_fav, uptitle=uptitle, title=title, mainp=mainp, mainimg=mainimg,
                  title2=title2, secondp=secondp, video=video, galtitle=galtitle, galtext=galtext,
                  galimg1=galimg1, galimgtxt1=galimgtxt1, galimg2=galimg2, galimgtxt2=galimgtxt2,
                  galimg3=galimg3, galimgtxt3=galimgtxt3, galimg4=galimg4, galimgtxt4=galimgtxt4,
                  galimg5=galimg5, galimgtxt5=galimgtxt5, galimg6=galimg6, galimgtxt6=galimgtxt6,
-                 tittle3=tittle3, subtitle=subtitle, thirdp=thirdp, duration=duration, author_id=self.id)
+                 tittle3=tittle3, subtitle=subtitle, thirdp=thirdp, hashtags=hashtags, duration=duration, author_id=self.id)
 
         return p
 
@@ -45,43 +45,43 @@ class User(db.Model):
 class PostCategory(db.Model):
     __tablename__ = "post_category"
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    cat_id = sa.Column(sa.Integer, sa.ForeignKey("categories.id"), nullable=False)
-    post_id = sa.Column(sa.Integer, sa.ForeignKey("posts.id"), nullable=False)
+    cat_id = sa.Column(sa.Integer, sa.ForeignKey("categories.id"), nullable=True)
+    post_id = sa.Column(sa.Integer, sa.ForeignKey("posts.id"), nullable=True)
 
 
 class Post(db.Model):
     __versioned__ = {}
     __tablename__ = "posts"
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    aut_fav = sa.Column(sa.Boolean, nullable=False)
+    aut_fav = sa.Column(sa.String, nullable=False) # Boolen
     uptitle = sa.Column(sa.String, nullable=False)
     title = sa.Column(sa.String, nullable=False)
     mainp = sa.Column(sa.String, nullable=False)
-    mainimg = sa.Column(sa.LargeBinary, nullable=False)
+    mainimg = sa.Column(sa.String, nullable=False)
     title2 = sa.Column(sa.String, nullable=False)
     secondp = sa.Column(sa.String, nullable=False)
     video = sa.Column(sa.String)
     galtitle = sa.Column(sa.String)
     galtext = sa.Column(sa.String)
-    galimg1 = sa.Column(sa.LargeBinary)
+    galimg1 = sa.Column(sa.String)
     galimgtxt1 = sa.Column(sa.String)
-    galimg2 = sa.Column(sa.LargeBinary)
+    galimg2 = sa.Column(sa.String)
     galimgtxt2 = sa.Column(sa.String)
-    galimg3 = sa.Column(sa.LargeBinary)
+    galimg3 = sa.Column(sa.String)
     galimgtxt3 = sa.Column(sa.String)
-    galimg4 = sa.Column(sa.LargeBinary)
+    galimg4 = sa.Column(sa.String)
     galimgtxt4 = sa.Column(sa.String)
-    galimg5 = sa.Column(sa.LargeBinary)
+    galimg5 = sa.Column(sa.String)
     galimgtxt5 = sa.Column(sa.String)
-    galimg6 = sa.Column(sa.LargeBinary)
+    galimg6 = sa.Column(sa.String)
     galimgtxt6 = sa.Column(sa.String)
-    tittle3 = sa.Column(sa.String, nullable=False)
-    subtitle = sa.Column(sa.String, nullable=False)
-    thirdp = sa.Column(sa.String, nullable=False)
-    hashtags = sa.Column(sa.ARRAY(sa.String), nullable=False)
+    tittle3 = sa.Column(sa.String, nullable=True)
+    subtitle = sa.Column(sa.String, nullable=True)
+    thirdp = sa.Column(sa.String, nullable=True)
+    hashtags = sa.Column(sa.ARRAY(sa.String))
     published = sa.Column(sa.DateTime, nullable=False, default=datetime.utcnow)
     duration = sa.Column(sa.Integer, nullable=False)
-    author_id = sa.Column(sa.Integer, sa.ForeignKey("users.id"), nullable=False)
+    author_id = sa.Column(sa.Integer, sa.ForeignKey("users.id"), nullable=True)
     user = sa.orm.relationship("User", back_populates="posts", lazy=True)
     categories = sa.orm.relationship("Category", back_populates="posts", lazy=True, secondary='post_category')
 
