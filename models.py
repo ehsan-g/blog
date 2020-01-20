@@ -27,7 +27,7 @@ class User(db.Model):
     password = sa.Column(PasswordType(schemes=['pbkdf2_sha512', 'md5_crypt'], deprecated=['md5_crypt']))
     create_date = sa.Column(sa.DateTime, nullable=False, default=datetime.utcnow)
     edit_date = sa.Column(sa.DateTime, nullable=False, default=datetime.utcnow)
-    posts = db.relationship("Post", backref="user", lazy=True)
+    posts = sa.orm.relationship("Post", back_populates="user", lazy=True)
 
     def add_post(self, aut_fav, uptitle, title, mainp, mainimg, title2, secondp, video, galtitle, galtext, galimg1,
                  galimgtxt1, galimg2, galimgtxt2, galimg3, galimgtxt3, galimg4, galimgtxt4, galimg5, galimgtxt5,
@@ -38,43 +38,60 @@ class User(db.Model):
                  galimg3=galimg3, galimgtxt3=galimgtxt3, galimg4=galimg4, galimgtxt4=galimgtxt4,
                  galimg5=galimg5, galimgtxt5=galimgtxt5, galimg6=galimg6, galimgtxt6=galimgtxt6,
                  tittle3=tittle3, subtitle=subtitle, thirdp=thirdp, duration=duration, author_id=self.id)
-               
+
         return p
+
+
+class PostCategory(db.Model):
+    __tablename__ = "post_category"
+    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    cat_id = sa.Column(sa.Integer, sa.ForeignKey("categories.id"), nullable=False)
+    post_id = sa.Column(sa.Integer, sa.ForeignKey("posts.id"), nullable=False)
 
 
 class Post(db.Model):
     __versioned__ = {}
     __tablename__ = "posts"
-    id = sa.Column(sa.Integer, primary_key=True)
-    aut_fav = sa.Column(sa.String, nullable=False)
+    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    aut_fav = sa.Column(sa.Boolean, nullable=False)
     uptitle = sa.Column(sa.String, nullable=False)
     title = sa.Column(sa.String, nullable=False)
     mainp = sa.Column(sa.String, nullable=False)
-    mainimg = sa.Column(sa.String)
+    mainimg = sa.Column(sa.LargeBinary, nullable=False)
     title2 = sa.Column(sa.String, nullable=False)
     secondp = sa.Column(sa.String, nullable=False)
-    video = sa.Column(sa.String, nullable=False)
-    galtitle = sa.Column(sa.String, nullable=False)
-    galtext = sa.Column(sa.String, nullable=False)
-    galimg1 = sa.Column(sa.String, nullable=False)
-    galimgtxt1 = sa.Column(sa.String, nullable=False)
-    galimg2 = sa.Column(sa.String)
+    video = sa.Column(sa.String)
+    galtitle = sa.Column(sa.String)
+    galtext = sa.Column(sa.String)
+    galimg1 = sa.Column(sa.LargeBinary)
+    galimgtxt1 = sa.Column(sa.String)
+    galimg2 = sa.Column(sa.LargeBinary)
     galimgtxt2 = sa.Column(sa.String)
-    galimg3 = sa.Column(sa.String)
+    galimg3 = sa.Column(sa.LargeBinary)
     galimgtxt3 = sa.Column(sa.String)
-    galimg4 = sa.Column(sa.String)
+    galimg4 = sa.Column(sa.LargeBinary)
     galimgtxt4 = sa.Column(sa.String)
-    galimg5 = sa.Column(sa.String)
+    galimg5 = sa.Column(sa.LargeBinary)
     galimgtxt5 = sa.Column(sa.String)
-    galimg6 = sa.Column(sa.String)
+    galimg6 = sa.Column(sa.LargeBinary)
     galimgtxt6 = sa.Column(sa.String)
     tittle3 = sa.Column(sa.String, nullable=False)
     subtitle = sa.Column(sa.String, nullable=False)
     thirdp = sa.Column(sa.String, nullable=False)
+    hashtags = sa.Column(sa.ARRAY(sa.String), nullable=False)
     published = sa.Column(sa.DateTime, nullable=False, default=datetime.utcnow)
-    duration = sa.Column(sa.String, nullable=False)
-    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    duration = sa.Column(sa.Integer, nullable=False)
+    author_id = sa.Column(sa.Integer, sa.ForeignKey("users.id"), nullable=False)
+    user = sa.orm.relationship("User", back_populates="posts", lazy=True)
+    categories = sa.orm.relationship("Category", back_populates="posts", lazy=True, secondary='post_category')
 
+
+class Category(db.Model):
+    __versioned__ = {}
+    __tablename__ = "categories"
+    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    name = sa.Column(sa.String, nullable=False)
+    posts = sa.orm.relationship("Post", back_populates="categories", lazy=True, secondary='post_category')
 
 
 # after you have defined all your models, call configure_mappers:
