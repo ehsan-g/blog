@@ -1,5 +1,4 @@
 import os
-import time
 from models import *
 from validate import *
 import flask
@@ -16,10 +15,12 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhos
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
+# Count queries
 def get_count(q):
     count_q = q.statement.with_only_columns([func.count()]).order_by(None)
     count = q.session.execute(count_q).scalar()
     return count
+
 
 @app.route("/")
 def index():
@@ -31,40 +32,34 @@ def posts():
     # Get start and end point for posts to generate. set the 0 and 5 for the get request
     start = int(request.form.get("start"))
     end = int(request.form.get("end"))
+    quantity = int(request.form.get("quantity"))
 
     posts = Post.query
 
     # Fast: SELECT COUNT(*) FROM Posts
     posts_count = get_count(posts)
     print(posts_count)
+
     if posts_count is None:
         return jsonify({"error": "There are no posts"}), 422
 
     # Get all posts of the user and set the end if smaller than the end
-    if end > posts_count:
-        end = posts_count
+    # if end > posts_count:
+    #     end = posts_count
 
-    # print({start}, {end}, len(posts))
-
+    post_query = Post.query.order_by(Post.published.desc()).offset(start).limit(quantity)
     # Iterate posts and get a list of post objects
     all_posts = []
-    for i in range(start, end + 1):
-        print(f"the start and end and i: {start}, {end + 1} and {i}")
-        # Exit if i exceed the number of posts
-        # if i >= posts_count:
-        #     break
-
-        post = Post.query.get(i)
+    for post in post_query:
         all_posts.append(post)
-        print(all_posts)
-
-
-
+        print(f"the start and end and i: {start}, {posts_count} , the post is {post.id}")
 
     # Get a list of jason per post containing detail of the post
     jsList = []
     for post in all_posts:
         json = {
+            "id": post.id,
+            "aut_fav": post.aut_fav,
             "uptitle": post.uptitle,
             "title": post.title,
             "mainp": post.mainp,
@@ -89,7 +84,10 @@ def posts():
             "tittle3": post.tittle3,
             "subtitle": post.subtitle,
             "thirdp": post.thirdp,
+            'published': post.published,
             "duration": post.duration,
+            "author_id": post.author_id,
+            "author_name": post.user.name,
         }
         jsList.append(json)
 
@@ -102,15 +100,22 @@ def posts():
 def addpost(author_id):
     """add a post."""
 
-    # Get form information.
-    name = request.form.get("name")
-    author = request.form.get("author_id")
 
-    # Add post.
+    # Get the user and form information.
     user = User.query.get(author_id)
+    req = request.form
+    for aut_fav, uptitle, title, mainp, mainimg, title2, secondp, video, galtitle, galtext, galimg1, \
+        galimgtxt1, galimg2, galimgtxt2, galimg3, galimgtxt3, galimg4, galimgtxt4, galimg5, galimgtxt5, galimg6, \
+        galimgtxt6, tittle3, subtitle, thirdp, hashtags, duration in req:
 
-    user.add_post(name)
-    user = User.query.get(author)
+        user_post = user.add_post(aut_fav=aut_fav, uptitle=uptitle, title=title, mainp=mainp, mainimg=mainimg,
+                                  title2=title2, secondp=secondp, video=video, galtitle=galtitle, galtext=galtext,
+                                  galimg1=galimg1, galimgtxt1=galimgtxt1, galimg2=galimg2, galimgtxt2=galimgtxt2,
+                                  galimg3=galimg3, galimgtxt3=galimgtxt3, galimg4=galimg4, galimgtxt4=galimgtxt4,
+                                  galimg5=galimg5, galimgtxt5=galimgtxt5, galimg6=galimg6, galimgtxt6=galimgtxt6,
+                                  tittle3=tittle3, subtitle=subtitle, thirdp=thirdp, hashtags=hashtags, duration=duration)
+
+
     return render_template("success.html")
 
 
@@ -166,8 +171,11 @@ def register():
     dbsession.commit()
     return render_template("success.html")
 
+@app.route('/panel')
+def panel():
+    return render_template('panel.html')
 
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
-    app.run(debug=True, host='0.0.0.0', port=4000)
+    app.run(debug=True, host='0.0.0.0', port=4090)

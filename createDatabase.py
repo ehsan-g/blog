@@ -14,12 +14,12 @@ with app.app_context():
         todo = ""
         db.session.commit()
         todo = input("Just say it: ")
-        if todo == "Drop":
+        if todo == "d":
             db.drop_all()
             db.session.commit()
             print("Consider it Done")
 
-        elif todo == "Create":
+        elif todo == "c":
             try:
                 user = User.query.geCt(2)
             except:

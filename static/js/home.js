@@ -1,7 +1,7 @@
 // Start with first post.
-counter = 1;
+counter = 0;
 // Load posts 20 at a time.
-quantity = 4;
+quantity = 6;
 // let the window scroll function load
 
 
@@ -39,6 +39,7 @@ function load() {
     data.append("start", start);
     console.log(start ,end, data);
     data.append('end', end);
+    data.append('quantity', quantity);
 
     // Send request.
     request.send(data);
