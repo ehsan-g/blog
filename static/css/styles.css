@@ -1,9 +1,6 @@
+* { box-sizing: border-box !important; }
 
-.brand-logo > img{
-    width: 30%;
-    margin-top: 20px;
-    margin-left: 20px;
-}
+
 body {
     margin-bottom: 20px;
     font-family: "iranyekan";
@@ -15,51 +12,36 @@ body {
     margin-top: 200px;
 }
 
-/* ----- center columns -----*/
 
-.row {
-    text-align:center;
-    margin:0 auto;
-}
-
-.row .col {
-    padding: 0px !important;
-    display:inline-block !important;
-    vertical-align: middle !important;
-    float: none !important;
-}
-
-/* ---------------------------------------------------- Navbar ------------------------------------------------------*/
-nav {
-    background-color: mediumaquamarine !important;
-}
-
-/* ---------------------------------------------------- index ------------------------------------------------------*/
+/*---------------------------------------------------- index ------------------------------------------------------*/
 
 
 /* ----- fit the authFav -----*/
 .card-panel {
-    margin: 3px;
+    margin: 30px  0 100px 0 !important;
     line-height: 0px;
     border-radius: 10px  !important; ;
+    padding: 0 !important;
 }
 
-img {
+ img {
     max-width: 100%;
 }
 
-/* ----- Card column width, -----*/
-.card {
-    margin: 10px !important;
-    width: 30% !important;
-    filter: grayscale(10);
-}
 
-.card:hover {
-    filter: grayscale(0);
-}
 
 /* ---------------------------------------------------- Panel ------------------------------------------------------*/
+/* -------- Navbar -------*/
+nav {
+    background-color: mediumaquamarine !important;
+}
+
+.brand-logo > img{
+    width: 30%;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
 #panelh1 {
     direction: rtl;
 }
@@ -80,4 +62,54 @@ hr {
 #table td {
     font-size: small;
     color: #00695c;
+}
+
+
+
+/* ------------------------------------------- isotope -------------------------------------------- */
+* { box-sizing: border-box !important; }
+* { box-sizing: border-box; }
+
+/* force scrollbar */
+html { overflow-y: scroll; }
+
+body {
+    font-family: sans-serif;
+}
+
+/* ---- isotope ---- */
+
+.grid {
+    background: white;
+}
+
+/* clear fix */
+.grid:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+/* ---- .grid-item ---- */
+
+.grid-sizer, .grid-item {
+    width: 33.333%;
+
+}
+
+.grid-item {
+    float: left;
+}
+
+.grid-item img {
+    display: block;
+    max-width: 100%;
+    padding: 20px;
+    filter: grayscale(0.8);
+
+}
+
+
+.grid-item img:hover {
+    filter: grayscale(0);
 }

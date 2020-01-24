@@ -5,24 +5,32 @@
 {% endblock %}
 {#----------------------------- JS -----------------------------------#}
 {% block head_js %}
+    <script src="/static/js/lib/imageloader.js"></script>
+    <script src="https://npmcdn.com/imagesloaded@4/imagesloaded.pkgd.js"></script>
+
 
 {% endblock head_js %}
 {#----------------------------- Body -----------------------------------#}
 
 {% block body %}
-    <div id="autFav" class="row">
-        <div class="col s12 card-panel lighten-2">
+    <div id="autFav" >
+        <div class="card-panel">
             <img src="static/img/autFavImg.png">
         </div>
     </div>
+    <h6>Posts</h6>
+    <div id="posts"  class="grid">
+        <div class="grid-sizer"></div>
 
-    <div id="posts" class="row">
 
     </div>
 
 
-
+    <script src="/static/js/lib/jquery.js"></script>
+    <script src="/static/js/lib/isotop.js"></script>
     <script src="/static/js/home.js"></script>
+    <script src="/static/js/script.js"></script>
+
 
 {% endblock %}
 
