@@ -21,7 +21,7 @@ def get_count(q):
     count = q.session.execute(count_q).scalar()
     return count
 
-
+# ver. 0.1.0
 @app.route("/")
 def index():
     return render_template("index.html")
