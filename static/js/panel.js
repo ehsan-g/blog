@@ -39,7 +39,6 @@ function load() {
 
     // Open new request to get new posts.
     const request = new XMLHttpRequest();
-    console.log(request);
     request.open('POST', '/api/users/all');
 
     // For each set of data received, add a card
@@ -51,7 +50,6 @@ function load() {
     // Add start and end points to request data.
     const data = new FormData();
     data.append("start", start);
-    console.log(start ,end, data);
     data.append('end', end);
     data.append('quantity', quantity);
 
@@ -73,7 +71,7 @@ function add_post(content) {
     fav.innerHTML = content.aut_fav;
 
     const tittle = document.createElement('td');
-    tittle.innerHTML = content.title;
+    tittle.innerHTML = content.tittle;
 
     const autid = document.createElement('td');
     autid.innerHTML = content.author_id;
@@ -91,9 +89,5 @@ function add_post(content) {
     tr.appendChild(autid);
     tr.appendChild(autname);
     tr.appendChild(pub);
-
-
-
-
-
+    
 };

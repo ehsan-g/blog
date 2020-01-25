@@ -12,12 +12,10 @@ function imageload() {
         }
     });
 
-    console.log('iso');
 
     imagesLoaded(grid).on('progress', function () {
         // layout Isotope after each image loads
         iso.layout();
-        console.log('iso');
 
     });
 

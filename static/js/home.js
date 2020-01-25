@@ -27,7 +27,6 @@ function load() {
 
     // Open new request to get new posts.
     const request = new XMLHttpRequest();
-    console.log(request);
     request.open('POST', '/api/users/all');
 
     // For each set of data received, add a card
@@ -39,7 +38,6 @@ function load() {
     // Add start and end points to request data.
     const data = new FormData();
     data.append("start", start);
-    console.log(start ,end, data);
     data.append('end', end);
     data.append('quantity', quantity);
 
@@ -54,51 +52,53 @@ function add_post(content) {
     const randm = Math.floor((Math.random() * 3) + 1);
 
     if ( randm === 1){
-        const card = document.createElement('div');
+        var card = document.createElement('div');
         card.className = 'grid-item';
 
-        const image = document.createElement('img');
+        var image = document.createElement('img');
         image.src = "static/img/golden-hour.png";
-
-        document.querySelector('#posts').append(card);
-
-        card.appendChild(image);
-
-
     }
 
     else if ( randm === 2){
-        const card = document.createElement('div');
+        var card = document.createElement('div');
         card.className = 'grid-item';
 
-        const image = document.createElement('img');
+        var image = document.createElement('img');
         image.src = "static/img/office.png";
-
-        document.querySelector('#posts').append(card);
-
-        card.appendChild(image);
 
 
     }
     // Create first Div.
     else {
-        const card = document.createElement('div');
+        var card = document.createElement('div');
         card.className = 'grid-item';
 
-        const image = document.createElement('img');
-        image.src = "static/img/look-out.png";
+        var image = document.createElement('img');
+        image.src = "static/img/look-out.jpg";
 
-        document.querySelector('#posts').append(card);
-
-        card.appendChild(image);
 
     }
 
+    document.querySelector('#posts').append(card);
+    card.appendChild(image);
 
 
-    imageload()
+
+    const overlay = document. createElement('div');
+    overlay.className = 'overlay';
+    card.appendChild(overlay);
+
+    const overtxt = document.createElement('div');
+    overtxt.className = 'text';
+    overtxt.innerHTML = content.tittle
+    overlay.appendChild(overtxt)
 
 
+;
+
+    imageload();
+
+};
 
 
 
@@ -171,6 +171,6 @@ function add_post(content) {
     // theP2.appendChild(pText)
     //
 
-};
+
 
 

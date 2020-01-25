@@ -2,10 +2,9 @@ import os
 from models import *
 from validate import *
 import flask
-from flask import Flask, render_template, request,jsonify
+from flask import Flask, render_template, request, jsonify, redirect, session
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import scoped_session, sessionmaker
-
 
 app = Flask(__name__)
 engine = create_engine("postgresql://postgres:postgres@localhost")
@@ -15,11 +14,13 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhos
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
+
 # Count queries
 def get_count(q):
     count_q = q.statement.with_only_columns([func.count()]).order_by(None)
     count = q.session.execute(count_q).scalar()
     return count
+
 
 # ver. 0.1.0
 @app.route("/")
@@ -60,14 +61,14 @@ def posts():
         json = {
             "id": post.id,
             "aut_fav": post.aut_fav,
-            "uptitle": post.uptitle,
-            "title": post.title,
+            "uptittle": post.uptittle,
+            "tittle": post.tittle,
             "mainp": post.mainp,
             "mainimg": post.mainimg,
-            "title2": post.title2,
+            "tittle2": post.tittle2,
             "secondp": post.secondp,
             "video": post.video,
-            "galtitle": post.galtitle,
+            "galtittle": post.galtittle,
             "galtext": post.galtext,
             "galimg1": post.galimg1,
             "galimgtxt1": post.galimgtxt1,
@@ -82,7 +83,7 @@ def posts():
             "galimg6": post.galimg6,
             "galimgtxt6": post.galimgtxt6,
             "tittle3": post.tittle3,
-            "subtitle": post.subtitle,
+            "subtittle": post.subtittle,
             "thirdp": post.thirdp,
             'published': post.published,
             "duration": post.duration,
@@ -94,29 +95,6 @@ def posts():
     # Reverse the posts order and return
     # jsList.reverse()
     return jsonify(jsList)
-
-
-@app.route("/addpost/api/users/<int:author_id>", methods=["POST"])
-def addpost(author_id):
-    """add a post."""
-
-
-    # Get the user and form information.
-    user = User.query.get(author_id)
-    req = request.form
-    for aut_fav, uptitle, title, mainp, mainimg, title2, secondp, video, galtitle, galtext, galimg1, \
-        galimgtxt1, galimg2, galimgtxt2, galimg3, galimgtxt3, galimg4, galimgtxt4, galimg5, galimgtxt5, galimg6, \
-        galimgtxt6, tittle3, subtitle, thirdp, hashtags, duration in req:
-
-        user_post = user.add_post(aut_fav=aut_fav, uptitle=uptitle, title=title, mainp=mainp, mainimg=mainimg,
-                                  title2=title2, secondp=secondp, video=video, galtitle=galtitle, galtext=galtext,
-                                  galimg1=galimg1, galimgtxt1=galimgtxt1, galimg2=galimg2, galimgtxt2=galimgtxt2,
-                                  galimg3=galimg3, galimgtxt3=galimgtxt3, galimg4=galimg4, galimgtxt4=galimgtxt4,
-                                  galimg5=galimg5, galimgtxt5=galimgtxt5, galimg6=galimg6, galimgtxt6=galimgtxt6,
-                                  tittle3=tittle3, subtitle=subtitle, thirdp=thirdp, hashtags=hashtags, duration=duration)
-
-
-    return render_template("success.html")
 
 
 @app.route('/login')
@@ -141,8 +119,16 @@ def login_check():
     if dbpass != input_password:
         return render_template('try_again.html')
 
-    # if all good go to panel
-    return render_template('')
+    # if all good modify the flask session and go to panel
+    session['logged_in'] = True
+    return redirect('/panel')
+
+
+@app.route('/logout', methods=['POST', 'GET'])
+def logout():
+
+    session['logged_in'] = False
+    return redirect('/login')
 
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -151,18 +137,20 @@ def register():
         return render_template("register.html")
 
     input_name = request.form.get("name")
+    input_lastname = request.form.get("lastname")
     input_email = request.form.get("email")
     input_pass = request.form.get("pswd")
 
+    print(input_lastname, input_pass)
 
     # validate
-    document = {'name': input_name, 'email': input_email, 'password': input_pass}
+    document = {'name': input_name, 'lastname': input_lastname, 'email': input_email, 'password': input_pass}
     if not v.validate(document, schema):
         return print('Try again because:', v.errors)
 
     # check if the email already exists
     dbemail = User.query.filter_by(email=document['email']).first()
-    if dbemail is not None:
+    if dbemail:
         return render_template("error.html", message="This Email has already registered!")
 
     # insert
@@ -171,9 +159,34 @@ def register():
     dbsession.commit()
     return render_template("success.html")
 
-@app.route('/panel')
+
+@app.route('/panel', methods=['POST', 'GET'])
 def panel():
-    return render_template('panel.html')
+    if not session.get('logged_in'):
+        return redirect('/login')
+    else:
+        return render_template('panel.html')
+
+
+@app.route("/addpost/api/users/<int:author_id>", methods=["POST"])
+def addpost(author_id):
+    """add a post."""
+
+    # Get the user and form information.
+    user = User.query.get(author_id)
+    req = request.form
+    for aut_fav, uptittle, tittle, mainp, mainimg, tittle2, secondp, video, galtittle, galtext, galimg1, \
+        galimgtxt1, galimg2, galimgtxt2, galimg3, galimgtxt3, galimg4, galimgtxt4, galimg5, galimgtxt5, galimg6, \
+        galimgtxt6, tittle3, subtittle, thirdp, hashtags, duration in req:
+        user_post = user.add_post(aut_fav=aut_fav, uptittle=uptittle, tittle=tittle, mainp=mainp, mainimg=mainimg,
+                                  tittle2=tittle2, secondp=secondp, video=video, galtittle=galtittle, galtext=galtext,
+                                  galimg1=galimg1, galimgtxt1=galimgtxt1, galimg2=galimg2, galimgtxt2=galimgtxt2,
+                                  galimg3=galimg3, galimgtxt3=galimgtxt3, galimg4=galimg4, galimgtxt4=galimgtxt4,
+                                  galimg5=galimg5, galimgtxt5=galimgtxt5, galimg6=galimg6, galimgtxt6=galimgtxt6,
+                                  tittle3=tittle3, subtittle=subtittle, thirdp=thirdp, hashtags=hashtags,
+                                  duration=duration)
+
+    return render_template("success.html")
 
 
 if __name__ == "__main__":

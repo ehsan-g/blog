@@ -1,5 +1,9 @@
 * { box-sizing: border-box !important; }
 
+/* force scrollbar */
+html { overflow-y: scroll; }
+
+
 
 body {
     margin-bottom: 20px;
@@ -20,7 +24,7 @@ body {
 .card-panel {
     margin: 30px  0 100px 0 !important;
     line-height: 0px;
-    border-radius: 10px  !important; ;
+    border-radius: 10px  !important;
     padding: 0 !important;
 }
 
@@ -30,52 +34,7 @@ body {
 
 
 
-/* ---------------------------------------------------- Panel ------------------------------------------------------*/
-/* -------- Navbar -------*/
-nav {
-    background-color: mediumaquamarine !important;
-}
-
-.brand-logo > img{
-    width: 30%;
-    margin-top: 20px;
-    margin-left: 20px;
-}
-
-#panelh1 {
-    direction: rtl;
-}
-
-hr {
-    float: right;
-    margin-right: 10px ;
-    width: 250px;
-    opacity: 0.4;
-    border-bottom: none;
-}
-
-#table {
-    direction: rtl !important;
-    overflow-x: scroll;
-}
-
-#table td {
-    font-size: small;
-    color: #00695c;
-}
-
-
-
 /* ------------------------------------------- isotope -------------------------------------------- */
-* { box-sizing: border-box !important; }
-* { box-sizing: border-box; }
-
-/* force scrollbar */
-html { overflow-y: scroll; }
-
-body {
-    font-family: sans-serif;
-}
 
 /* ---- isotope ---- */
 
@@ -99,17 +58,114 @@ body {
 
 .grid-item {
     float: left;
+
 }
 
 .grid-item img {
     display: block;
     max-width: 100%;
-    padding: 20px;
-    filter: grayscale(0.8);
+    padding-left: 30px;
+    paddin-right: 30px;
+    padding-top: 30px;
 
 }
 
 
-.grid-item img:hover {
-    filter: grayscale(0);
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #00695c;
+    opacity: 0.5;
+    overflow: hidden;
+    height: 0;
+    transition: .5s  !important;
+    margin-left: 30px !important;
+    width: 92%;
 }
+
+.grid-item:hover .overlay {
+    height: 95%;
+}
+
+.text {
+    color: white;
+    direction: rtl;
+    font-size: 20px;
+    position: absolute;
+    top: 80%;
+    left: 30%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+/* fix the farsi version of input fields animation*/
+.input-field > label:not(.label-icon).active {
+
+    transform: translateY(-14px) scale(0.9) !important;
+}
+
+
+/* ---------------------------------------------------- Panel ------------------------------------------------------*/
+/* -------- Navbar -------*/
+nav {
+    background-color: mediumaquamarine !important;
+}
+
+nav .btn {
+    background-color: transparent !important;
+    border-radius: 40%;
+    margin-left: 30px;
+    margin-right: 10px;
+    cursor: pointer;
+    border: none;
+}
+
+nav .btn:hover, .btn-large:hover, .btn-small:hover{
+    background-color: #EF9A9A !important;
+}
+
+.brand-logo > img{
+    width: 30%;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+#panelh1 {
+    direction: rtl;
+}
+
+/* ---- login and register fields ----*/
+form, label {
+    direction: rtl !important;
+}
+
+form > h2 {
+    direction: rtl !important;
+    float: right !important;
+    justify-content: right;
+
+}
+
+hr {
+    float: right;
+    margin-right: 10px ;
+    width: 250px;
+    opacity: 0.4;
+    border-bottom: none;
+}
+
+#table {
+    direction: rtl !important;
+    overflow-x: scroll;
+}
+
+#table td {
+    font-size: small;
+    color: #00695c;
+}
+
+

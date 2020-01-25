@@ -22,6 +22,7 @@ class User(db.Model):
     __tablename__ = "users"
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
     name = sa.Column(sa.String, nullable=False)
+    lastname = sa.Column(sa.String, nullable=False)
     email = sa.Column(EmailType, nullable=False, unique=True)
     role = sa.Column(sa.String, default='Nakama')
     password = sa.Column(PasswordType(schemes=['pbkdf2_sha512', 'md5_crypt'], deprecated=['md5_crypt']))
@@ -29,15 +30,15 @@ class User(db.Model):
     edit_date = sa.Column(sa.DateTime, nullable=False, default=datetime.utcnow)
     posts = sa.orm.relationship("Post", back_populates="user", lazy=True)
 
-    def add_post(self, aut_fav, uptitle, title, mainp, mainimg, title2, secondp, video, galtitle, galtext, galimg1,
+    def add_post(self, aut_fav, uptittle, tittle, mainp, mainimg, tittle2, secondp, video, galtittle, galtext, galimg1,
                  galimgtxt1, galimg2, galimgtxt2, galimg3, galimgtxt3, galimg4, galimgtxt4, galimg5, galimgtxt5,
-                 galimg6, galimgtxt6, tittle3, subtitle, thirdp, hashtags, duration):
-        p = Post(aut_fav=aut_fav, uptitle=uptitle, title=title, mainp=mainp, mainimg=mainimg,
-                 title2=title2, secondp=secondp, video=video, galtitle=galtitle, galtext=galtext,
+                 galimg6, galimgtxt6, tittle3, subtittle, thirdp, hashtags, duration):
+        p = Post(aut_fav=aut_fav, uptittle=uptittle, tittle=tittle, mainp=mainp, mainimg=mainimg,
+                 tittle2=tittle2, secondp=secondp, video=video, galtittle=galtittle, galtext=galtext,
                  galimg1=galimg1, galimgtxt1=galimgtxt1, galimg2=galimg2, galimgtxt2=galimgtxt2,
                  galimg3=galimg3, galimgtxt3=galimgtxt3, galimg4=galimg4, galimgtxt4=galimgtxt4,
                  galimg5=galimg5, galimgtxt5=galimgtxt5, galimg6=galimg6, galimgtxt6=galimgtxt6,
-                 tittle3=tittle3, subtitle=subtitle, thirdp=thirdp, hashtags=hashtags, duration=duration, user=self)
+                 tittle3=tittle3, subtittle=subtittle, thirdp=thirdp, hashtags=hashtags, duration=duration, user=self)
                 # instead of setting author_id=self.id we send the object to user
 
         return p
@@ -55,14 +56,14 @@ class Post(db.Model):
     __tablename__ = "posts"
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
     aut_fav = sa.Column(sa.Boolean, nullable=False)
-    uptitle = sa.Column(sa.String, nullable=False)
-    title = sa.Column(sa.String, nullable=False)
+    uptittle = sa.Column(sa.String, nullable=False)
+    tittle = sa.Column(sa.String, nullable=False)
     mainp = sa.Column(sa.String, nullable=False)
     mainimg = sa.Column(sa.String, nullable=False)
-    title2 = sa.Column(sa.String, nullable=False)
+    tittle2 = sa.Column(sa.String, nullable=False)
     secondp = sa.Column(sa.String, nullable=False)
     video = sa.Column(sa.String)
-    galtitle = sa.Column(sa.String)
+    galtittle = sa.Column(sa.String)
     galtext = sa.Column(sa.String)
     galimg1 = sa.Column(sa.String)
     galimgtxt1 = sa.Column(sa.String)
@@ -77,7 +78,7 @@ class Post(db.Model):
     galimg6 = sa.Column(sa.String)
     galimgtxt6 = sa.Column(sa.String)
     tittle3 = sa.Column(sa.String, nullable=False)
-    subtitle = sa.Column(sa.String, nullable=False)
+    subtittle = sa.Column(sa.String, nullable=False)
     thirdp = sa.Column(sa.String, nullable=False)
     hashtags = sa.Column(sa.ARRAY(sa.String), nullable=False)
     published = sa.Column(sa.DateTime, nullable=False, default=datetime.utcnow)

@@ -4,35 +4,43 @@
 {% endblock %}
 
 {% block body %}
+<div class="container">
 
-    <div class="container">
-        <div class="container" style="height: 100px"></div>
-        <h2 class="text-secondary"> Register to continue</h2>
+    <div class="row">
+        <form id="form" action="{{ url_for('register')}}" method="post" class="col s12">
+            <h2> ثبت نام</h2>
 
-        <form action="{{ url_for('register')}}" method="post">
-            <div class="form-group">
-{#                The for attribute of the <label> tag should be equal to the id attribute
-                   of the related element to bind them together.#}
-                <label for="usr">Name:</label>
-                <input type="text" class="form-control" id="usr" placeholder="Enter name" name="name">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="last_name" type="text" class="validate" name="name">
+                    <label for="first_name">نام</label>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="string" class="form-control" id="email" placeholder="Enter email" name="email">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="last_name" type="text" class="validate" name="lastname">
+                    <label for="last_name">نام خانوادگی</label>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="pwd">Password:</label>
-                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="password" type="password" class="validate" name="pswd">
+                    <label for="password">گذروازه</label>
+                </div>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="remember"> Remember me
-                </label>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="email" type="email" class="validate" name="email">
+
+                    <label for="email">ایمیل</label>
+                </div>
             </div>
-            <button type="submit" class="btn btn-outline-primary">Submit</button>
+            <button type="submit" class="waves-effect waves-light btn">ثبت نام</button>
         </form>
-
     </div>
+</div>
+
 
 
 {% endblock %}
