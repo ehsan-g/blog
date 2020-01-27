@@ -112,7 +112,7 @@ body {
 /* ---------------------------------------------------- Panel ------------------------------------------------------*/
 /* -------- Navbar -------*/
 nav {
-    background-color: mediumaquamarine !important;
+    background-color: #5CD0CC !important;
 }
 
 nav .btn {
@@ -123,8 +123,8 @@ nav .btn {
     cursor: pointer;
     border: none;
 }
-
-nav .btn:hover, .btn-large:hover, .btn-small:hover{
+/* power button r*/
+nav .btn:hover, nav .btn-large:hover, nav .btn-small:hover{
     background-color: #EF9A9A !important;
 }
 
@@ -138,6 +138,10 @@ nav .btn:hover, .btn-large:hover, .btn-small:hover{
     direction: rtl;
 }
 
+ /* floating button color*/
+.btn-floating{
+    background-color: #5CD0CC !important;
+}
 /* ---- login and register fields ----*/
 form, label {
     direction: rtl !important;
@@ -161,11 +165,12 @@ hr {
 #table {
     direction: rtl !important;
     overflow-x: scroll;
+    margin-bottom: 100px;
 }
 
 #table td {
     font-size: small;
-    color: #00695c;
+    color: #000000;
 }
 
 

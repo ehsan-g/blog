@@ -1,17 +1,12 @@
-document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.sidenav');
-    var instances = M.Sidenav.init(elems, {edge:'right'});
-});
-
-
 // ----------------------------------------------- Floating Button ----------------------------------------------
+
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.fixed-action-btn');
     var instances = M.FloatingActionButton.init(elems, {toolbarEnabled: true});
 });
 
 
-// ----------------------------------------------- Floating Button ----------------------------------------------
+// ----------------------------------------------- users posts ----------------------------------------------
 // Start with first post.
 counter = 0;
 // Load posts 20 at a time.
@@ -28,19 +23,21 @@ window.onscroll = () => {
         load();
     }
 };
+
 // Load next set of posts.
 function load() {
 
     // Set start and end post numbers, and update counter.
     const start = counter;
-    const end = start + quantity - 1;
-    counter = end + 1;
+    const end = start + quantity ;
+    counter = end ;
 
 
     // Open new request to get new posts.
     const request = new XMLHttpRequest();
-    request.open('POST', '/api/users/all');
+    request.open('POST', '/api/user/theuser');
 
+    console.log(request)
     // For each set of data received, add a card
     request.onload = () => {
         const data = JSON.parse(request.response);
@@ -50,9 +47,9 @@ function load() {
     // Add start and end points to request data.
     const data = new FormData();
     data.append("start", start);
-    data.append('end', end);
     data.append('quantity', quantity);
 
+    console.log(start)
     // Send request.
     request.send(data);
 };
@@ -89,5 +86,5 @@ function add_post(content) {
     tr.appendChild(autid);
     tr.appendChild(autname);
     tr.appendChild(pub);
-    
+
 };

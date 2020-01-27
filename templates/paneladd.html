@@ -1,0 +1,45 @@
+{% extends "panelLayout.html" %}
+
+{% block title %} Let's SAY something{% endblock %}
+
+{% block head_js %}
+
+{% endblock head_js %}
+
+{% block body %}
+
+        <h4 id="panelh1" >نوشته {{ author_name }}‌ </h4>
+
+        <table id="table" class="highlight">
+            <thead>
+            <tr >
+                <th>Post id</th>
+                <th>Favorite</th>
+                <th>Tittle</th>
+                <th>Author id</th>
+                <th>Author Name</th>
+                <th>Published</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            </tbody>
+        </table>
+
+        <div class="fixed-action-btn toolbar">
+            <a  class="btn-floating btn-large">
+                <i class="large material-icons">mode_edit</i>
+            </a>
+            <ul id="openfloat">
+                <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">insert_chart</i></a></li>
+                <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">format_quote</i></a></li>
+                <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">publish</i></a></li>
+                <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">attach_file</i></a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <script src="/static/js/paneladd.js"></script>
+{% endblock %}

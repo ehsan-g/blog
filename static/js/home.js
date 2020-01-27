@@ -1,5 +1,3 @@
-
-
 // Start with first post.
 counter = 0;
 // Load posts 20 at a time.
