@@ -5,37 +5,37 @@
 
 
 {% block body %}
-    <ul class="sidenav" id="mobile-demo">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">Javascript</a></li>
-        <li><a href="mobile.html">Mobile</a></li>
-    </ul>
-    <div>
-        <h4 id="panelh1" >نوشته‌ها</h4>
-        <hr>
-            <table id="table" class="highlight">
-                <thead>
-                <tr >
-                    <th>Post id</th>
-                    <th>Favorite</th>
-                    <th>Tittle</th>
-                    <th>Author id</th>
-                    <th>Author Name</th>
-                    <th>Published</th>
-                </tr>
-                </thead>
+    <div id="panel">
+        <div>
+            <h4 id="panelh1" >نوشته‌ها</h4>
+                <hr>
+                <table id="table" class="highlight">
+                    <thead>
+                    <tr >
+                        <th>Post id</th>
+                        <th>Favorite</th>
+                        <th>Tittle</th>
+                        <th>Author id</th>
+                        <th>Author Name</th>
+                        <th>Published</th>
+                    </tr>
+                    </thead>
 
-                <tbody>
+                    <tbody>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
 
 
-    <script src="/static/js/panel.js"></script>
+    {% block footerjs %}
+        <script src="/static/js/panel.js"></script>
+
+    {% endblock footerjs %}
+
 
 {% endblock %}
 

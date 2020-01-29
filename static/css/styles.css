@@ -7,7 +7,22 @@ html { overflow-y: scroll; }
 
 body {
     margin-bottom: 20px;
-    font-family: "iranyekan";
+    font-family: "iranyekan", serif !important;
+    /*background-color: black;*/
+}
+
+button, input, optgroup, select, textarea {
+    font-family: "iranyekan", serif !important;
+    padding-right: 25px!important;
+    font-size: 12px !important;
+}
+
+.select-wrapper ul {
+    padding: 0 !important;
+}
+
+.row .col {
+    float: right !important;
 }
 
 #loginPage, #tryPage {
@@ -16,6 +31,10 @@ body {
     margin-top: 200px;
 }
 
+/* the input feild lables*/
+.input-field.col label {
+    left: 0px !important
+}
 
 /*---------------------------------------------------- index ------------------------------------------------------*/
 
@@ -138,29 +157,31 @@ nav .btn:hover, nav .btn-large:hover, nav .btn-small:hover{
     direction: rtl;
 }
 
+#panel hr {
+    /*float: right;*/
+    margin-right: 10px ;
+    width: 250px;
+    opacity: 0.4;
+    border-bottom: none;
+}
+
  /* floating button color*/
 .btn-floating{
     background-color: #5CD0CC !important;
 }
 /* ---- login and register fields ----*/
-form, label {
+form,  label {
     direction: rtl !important;
 }
 
-form > h2 {
+ form > h2 {
     direction: rtl !important;
     float: right !important;
     justify-content: right;
 
 }
 
-hr {
-    float: right;
-    margin-right: 10px ;
-    width: 250px;
-    opacity: 0.4;
-    border-bottom: none;
-}
+
 
 #table {
     direction: rtl !important;
@@ -174,3 +195,102 @@ hr {
 }
 
 
+/*----- Posts or Inserts------*/
+#theaddpage .activediv {
+    display: none;
+}
+
+#time{
+    direction: ltr;
+    padding-top: 10px;
+}
+
+#time label {
+    font-size: 1rem !important;
+    color: #0D47A1;
+}
+form > h2 {
+    direction: rtl !important;
+    float: right !important;
+    justify-content: right;
+
+}
+
+#inserts form  {
+    direction: rtl !important;
+    float: right;
+
+
+}
+
+
+#inserts hr {
+    /*margin-bottom: 100px;*/
+    /*margin-top: 100px;*/
+    border-top-width: 2px;
+    border-bottom-color: transparent;
+    border-style: dashed;
+    color: #00695c;
+    text-align:center !important;
+    margin-left:0 !important;
+    width: 200px !important;
+    justify-content: center;
+
+}
+
+.input-field > label {
+    font-size: 0.9rem !important;
+}
+
+.section {
+    color: #c51162;
+    padding: 30px !important;
+    margin-bottom: 30px ;
+}
+
+
+
+
+.chips {
+    margin-bottom: 60px !important;
+}
+
+/* Album preview*/
+#img1, #img2, #img3, #img4, #img5, #img6{
+    max-width:80px;
+}
+input[type=file]{
+    padding:10px;
+}
+
+#inserts .btn-small {
+    background-color: #c51162 !important;
+    width: 100px;
+
+}
+
+#rst {
+    position: absolute;
+    color: whitesmoke !important;
+    width: 100px;
+    cursor: pointer !important;
+    font-family: "iranyekan", serif;
+    font-size: 10px;
+    padding: 10px;
+    margin-bottom: 10px !important;
+    top:-5px
+
+}
+
+#categories table button {
+    position: relative;
+    border-radius: 100%;
+    width: 20px;
+    justify-content: center;
+}
+
+#categories table button .material-icons {
+    position: absolute;
+    margin: -10px;
+    line-height: 20px;
+}

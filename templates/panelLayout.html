@@ -13,28 +13,51 @@
     <link rel="stylesheet" href="/static/font/WebFonts/css/fontiran.css" />
     <!--          Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--          Import JQuery-->
+    <script src="/static/js/lib/jquery.js"> </script>
     <!--          Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="/static/css/lib/materialize.min.css"  media="screen,projection"/>
+    <!--          Import materialize.js-->
+    <script type="text/javascript" src="/static/js/lib/materialize.min.js"></script>
+
+    <!--          Open Source libraries-->
+    <script src="/static/js/lib/isotop.js"></script>
 
 
-    {% block head_js %}
 
-    {% endblock head_js %}
+
+
+
+
+
+    {% block headjs %}
+
+    {% endblock headjs %}
 </head>
 <body >
+
 <div class="container">
+    <ul class="sidenav" id="mobile-demo">
+        <li><a href="{{ url_for('panel') }}">داشبورد</a></li>
+        <li><a href="{{ url_for('my_page')}}">نگارش من</a></li>
+        <li><a href="{{ url_for('categories') }}">دسته‌بندی</a></li>
+        <li><a href="{{ url_for('users') }}">کاربران</a></li>
+        <li> <a href="{{ url_for('logout')}}" class="waves-effect waves-light btn">Log out<i class="material-icons">power_settings_new</i></a></li>
+    </ul>
     <nav>
         <div class="nav-wrapper">
             <a href="#!" class="brand-logo"><img src="/static/img/whitelogo.png"></a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('users') }}">کاربران</a></li>
-                <li><a href="{{ url_for('mypost') }}">نگارش من</a></li>
+                <li><a href="{{ url_for('categories') }}">دسته‌بندی</a></li>
+                <li><a href="{{ url_for('my_page', author_id=author_id) }}">نگارش من</a></li>
                 <li><a href="{{ url_for('panel') }}">داشبورد</a></li>
                 <a href="{{ url_for('logout')}}" class="waves-effect waves-light btn"><i class="material-icons">power_settings_new</i></a>
             </ul>
         </div>
     </nav>
+
 </div>
 
 <div class="container">
@@ -46,7 +69,11 @@
 
 
 
-<script type="text/javascript" src="/static/js/lib/materialize.min.js"></script>
+
+<script src="/static/js/script.js"></script>
+{% block footerjs %}
+
+{% endblock footerjs %}
 
 </body>
 </html>

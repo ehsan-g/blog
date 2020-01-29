@@ -1,0 +1,59 @@
+{% extends "panelLayout.html" %}
+
+{% block title %}
+    Blog - Categories
+{% endblock %}
+
+{% block body %}
+    <div id="categories" class="container">
+        <div class="section row">
+            <form  action="{{ url_for('create_cat')}}" method="post" >
+                <div class="input-field col s6">
+                    <input id="thecat" type="text" class="validate" data-length="120" name="catname">
+                    <label for="catname">دسته بندی جدید</label>
+                </div>
+                <button type="submit" class="waves-effect waves-light btn"  style="top: 30px">اضافه کن +</button>
+            </form>
+        </div>
+        <div class="section container">
+            <table id="table" class="highlight centered">
+                <thead>
+                <tr >
+                    <th>Category id</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                    {% for cat in cats %}
+                        <tr >
+                            <td >{{ cat.id }}</td>
+                            <td >{{ cat.name }}</td>
+                            <td>
+                                <form action="{{ url_for('remove_cat', cat_id=cat.id )}}"method="post">
+                                    <button class="remove btn waves-effect waves-light red accent-1" type="submit" name="action">
+                                    <i class="material-icons">clear</i>
+                                    </button>
+                                </form>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+
+
+
+                </tbody>
+            </table>
+         </div>
+        </div>
+    </div>
+
+
+
+    {% block footerjs %}
+        <script src="/static/js/category.js"></script>
+
+    {% endblock footerjs %}
+
+{% endblock %}

@@ -1,4 +1,13 @@
-document.addEventListener('DOMContentLoaded', load);
+// ---------------------------- Side NavBar -------------------------------
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems, {edge:'right'});
+});
+
+
+// ---------------------------- IsoTope -------------------------------
+
 
 function imageload() {
 // init Isotope
@@ -20,3 +29,12 @@ function imageload() {
     });
 
 }
+
+// ---------------------------- DropDown w/ Selector -------------------------------
+// Initialization
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems, );
+});
+
+

@@ -3,43 +3,266 @@
 {% block title %} Let's SAY something{% endblock %}
 
 {% block head_js %}
-
 {% endblock head_js %}
 
 {% block body %}
 
-        <h4 id="panelh1" >نوشته {{ author_name }}‌ </h4>
 
-        <table id="table" class="highlight">
-            <thead>
-            <tr >
-                <th>Post id</th>
-                <th>Favorite</th>
-                <th>Tittle</th>
-                <th>Author id</th>
-                <th>Author Name</th>
-                <th>Published</th>
-            </tr>
-            </thead>
+    <h4 id="panelh1" >نوشته {{ author_name }}‌ </h4>
 
-            <tbody>
+    {# --------------------------------------- Posts table  --------------------------------------------#}
+<div id="theaddpage" class="container">
+{#    <div class="activediv">#}
+            <table id="table" class="highlight">
+                <thead>
+                <tr >
+                    <th>Post id</th>
+                    <th>Favorite</th>
+                    <th>Tittle</th>
+                    <th>Author id</th>
+                    <th>Author Name</th>
+                    <th>Published</th>
+                </tr>
+                </thead>
 
-            </tbody>
-        </table>
+                <tbody>
 
-        <div class="fixed-action-btn toolbar">
-            <a  class="btn-floating btn-large">
-                <i class="large material-icons">mode_edit</i>
-            </a>
-            <ul id="openfloat">
-                <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">insert_chart</i></a></li>
-                <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">format_quote</i></a></li>
-                <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">publish</i></a></li>
-                <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">attach_file</i></a></li>
-            </ul>
-        </div>
+                </tbody>
+            </table>
+    </div>
+    {# --------------------------------------- Floating --------------------------------------------#}
+
+    <div class="fixed-action-btn toolbar">
+        <a  class="btn-floating btn-large">
+            <i class="large material-icons">mode_edit</i>
+        </a>
+        <ul id="openfloat">
+            <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">insert_chart</i></a></li>
+            <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">divat_quote</i></a></li>
+            <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">publish</i></a></li>
+            <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">attach_file</i></a></li>
+        </ul>
     </div>
 
 
+{# --------------------------------------- Insert fields --------------------------------------------#}
+    <form id="inserts" class="row" action="{{ url_for('add_post')}}" method="post" enctype=multipart/form-data>
+        <div class="section row">
+            <div class="section input-field col s4">
+                <label>دسته‌بندی ها</label>
+                <select multiple>
+                    <option value="1">اجتماعی</option>
+                    <option value="2">فلسفی</option>
+                    <option value="3">فرهنگی</option>
+                </select>
+            </div>
+            <div class="col s8">
+                <div>
+                    <div id="time" class="col s8">
+                        <label>
+                            <span style="direction: ltr !important; float: left !important;"> زمان ثبت: {{published}} </span>
+                        </label>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="section z-depth-3"> بخش اول
+                <div class="row">
+                    <div class="input-field col s4">
+                        <input id="" type="number" min="0" data-length="2"  class="validate" name="duration">
+                        <span class="helper-text" data-error="لطفا عدد وارد کنید" >زمان مطلالعه</span>
+                        <label for="input_text"> </label>
+                    </div>
+                    <div class="col s4" style="float: left !important;">
+                        <p>
+                            <label>
+                                <input type="checkbox" name="aut_fav"/>
+                                <span>منتخب</span>
+                            </label>
+                        </p>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="input-field col s8">
+                        <input id="tittle" type="text" data-length="20" class="validate" name="tittle">
+                        <label for="tittle">عنوان اصلی</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <input id="uptittle" type="text" data-length="10"  class="validate" name="uptittle">
+                        <label for="uptittle">تیتر بالا</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="mainp" class="materialize-textarea validate" data-length="120" name="mainp" ></textarea>
+                        <label for="mainp">متن اصلی</label>
+                    </div>
+                </div>
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>عکس اصلی</span>
+                        <input type="file" name="mainimg" >
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text"  >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="mainalt" class="materialize-textarea validate" data-length="120" name="mainalt">
+                        <label for="mainalt">alt</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section z-depth-3"> بخش دوم
+                <div class="row">
+                    <div class="input-field col s8">
+                        <input id="tittle2" type="text" data-length="20" class="validate" name="tittle2">
+                        <label for="tittle2">عنوان دوم</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <input id="video" type="url"  class="validate" name="video">
+                        <label for="video">لینک ویدئو</label>
+                        <span class="helper-text" data-error="لطفا لینک وارد کنید" >زمان مطلالعه</span>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="secondp" class="materialize-textarea validate" data-length="120" name="secondp"></textarea>
+                        <label for="secondp">متن دوم</label>
+                    </div>
+                </div>
+            </div>
+            <div class="section z-depth-3">بخش سوم
+                <div class="row">
+                    <div class="input-field col s4">
+                        <input id="subtitle" type="text" data-length="10" class="validate" name="subtitle">
+                        <label for="subtitle">تیتر پایین</label>
+                    </div>
+                    <div class="input-field col s8">
+                        <input id="tittle3" type="text" data-length="20" class="validate" name="tittle3" >
+                        <label for="tittle3">عنوان سوم</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="thirdp" class="materialize-textarea validate" data-length="120" name="thirdp"></textarea>
+                        <label for="thirdp">متن سوم</label>
+                    </div>
+                </div>
+                {# ------ tags -----#}
+                <div class="chips chips-placeholder"></div>
+            </div>
+
+            {# ------ Gallery -----#}
+            <div class="section z-depth-3" action="#"> بخش چهارم
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>آلبوم ۶ تایی</span>
+                        <input type="file" onchange="preview(this);" multiple>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input id="multi" class="file-path validate" type="text" name="album">
+                        <img id="img1" >
+                        <img id="img2" >
+                        <img id="img3" >
+                        <img id="img4" >
+                        <img id="img5" >
+                        <img id="img6" >
+                    </div>
+                </div>
+                {# ------ Delete Button -----#}
+                <input class="waves-effect waves-light btn-small" id="rst" value="پاک کردن عکس ها"></a>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="albumtiitle" class="materialize-textarea validate" data-length="120" name="albumtiitle" >
+                        <label for="albumtiitle">تیتر آلبوم</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="albump" class="materialize-textarea validate" data-length="220" name="albump"></textarea>
+                        <label for="albump">متن آلبوم</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="albumalt1" type="text" class="validate" data-length="120" name="albumalt1">
+                        <label for="albumalt1">alt 1</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="albumtxt1" type="text" class="validate" data-length="120" name="albumtxt1" >
+                        <label for="albumtxt1">عنوان عکس ۱</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="albumalt2" type="text" class="validate" data-length="120" name="albumalt2">
+                        <label for="albumalt2">alt 2</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="albumtxt2" class="materialize-textarea validate" data-length="120" name="albumtxt2" >
+                        <label for="albumtxt2">عنوان عکس ۲</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="albumalt3" type="text" class="validate" data-length="120" name="albumalt3">
+                        <label for="albumalt3">alt 3</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="albumtxt3" type="text" class="validate" data-length="120" name="albumtxt3" >
+                        <label for="albumtxt3">عنوان عکس ۳</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="albumalt4" type="text" class="validate" data-length="120" name="albumalt4">
+                        <label for="albumalt4">alt 4</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="albumtxt4" type="text" class="validate" data-length="120" name="albumtxt4" >
+                        <label for="albumtxt4">عنوان عکس ۴</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="albumalt5" type="text" class="validate" data-length="120" name="albumalt5">
+                        <label for="albumalt5">alt 5</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="albumtxt5" type="text" class="validate" data-length="120" name="albumtxt5" >
+                        <label for="albumtxt5">عنوان عکس ۵</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="albumalt6" type="text" class="validate" data-length="120" name="albumalt6">
+                        <label for="albumalt6">alt 6</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="albumtxt6" type="text" class="validate" data-length="120" name="albumtxt6" >
+                        <label for="albumtxt6">عنوان عکس ۶</label>
+                    </div>
+                </div>
+
+            </div>
+            <input class="waves-effect waves-light btn"  type="submit" >ثبت</a>
+        </div>
+
+    </form>
+</div>
+
+
+{% block footerjs %}
     <script src="/static/js/paneladd.js"></script>
+{% endblock footerjs %}
+
+
 {% endblock %}

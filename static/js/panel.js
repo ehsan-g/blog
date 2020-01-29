@@ -1,9 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.sidenav');
-    var instances = M.Sidenav.init(elems, {edge:'right'});
-});
-
-
 // ----------------------------------------------- Floating Button ----------------------------------------------
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.fixed-action-btn');
@@ -39,12 +33,15 @@ function load() {
 
     // Open new request to get new posts.
     const request = new XMLHttpRequest();
-    request.open('POST', '/api/users/all');
+    request.open('POST', '/api/posts/all');
 
     // For each set of data received, add a card
     request.onload = () => {
         const data = JSON.parse(request.response);
-        data.forEach(add_post);
+
+        if (data["error"] !== "There are no posts"){
+            data.forEach(add_post);
+        }
 
     };
     // Add start and end points to request data.
