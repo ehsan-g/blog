@@ -2,8 +2,11 @@
 
 {% block title %} Let's SAY something{% endblock %}
 
-{% block head_js %}
-{% endblock head_js %}
+
+{% block headjs %}
+    <script src="/static/js/paneladd.js"></script>
+{% endblock headjs %}
+
 
 {% block body %}
 
@@ -47,15 +50,18 @@
 
 {# --------------------------------------- Insert fields --------------------------------------------#}
     <form id="inserts" class="row" action="{{ url_for('add_post')}}" method="post" enctype=multipart/form-data>
+        <div class="section input-field col s4">
+            <label>دسته‌بندی ها</label>
+            <select id="dropdown" name="theselect"   multiple required>
+                {% for cat in cats %}
+                    <option value='{{ cat.name }}' type="text" name={{ cat.id }} >{{ cat.name }}</option>
+                {% endfor %}
+
+            </select>
+            <span class="helper-text" data-error="لطفا عدد وارد کنید" ></span>
+
+        </div>
         <div class="section row">
-            <div class="section input-field col s4">
-                <label>دسته‌بندی ها</label>
-                <select multiple>
-                    <option value="1">اجتماعی</option>
-                    <option value="2">فلسفی</option>
-                    <option value="3">فرهنگی</option>
-                </select>
-            </div>
             <div class="col s8">
                 <div>
                     <div id="time" class="col s8">
@@ -70,7 +76,7 @@
             <div class="section z-depth-3"> بخش اول
                 <div class="row">
                     <div class="input-field col s4">
-                        <input id="" type="number" min="0" data-length="2"  class="validate" name="duration">
+                        <input value="1" id="" type="number" min="0" data-length="2"  class="validate" name="duration" required>
                         <span class="helper-text" data-error="لطفا عدد وارد کنید" >زمان مطلالعه</span>
                         <label for="input_text"> </label>
                     </div>
@@ -86,7 +92,7 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s8">
-                        <input id="tittle" type="text" data-length="20" class="validate" name="tittle">
+                        <input value="Alvin" id="tittle" type="text" data-length="20" class="validate" name="tittle" required>
                         <label for="tittle">عنوان اصلی</label>
                     </div>
                     <div class="input-field col s4">
@@ -101,13 +107,13 @@
                         <label for="mainp">متن اصلی</label>
                     </div>
                 </div>
-                <div class="file-field input-field">
+                <div class="file-field input-field" >
                     <div class="btn">
                         <span>عکس اصلی</span>
-                        <input type="file" name="mainimg" >
+                        <input id="mainimg"  type="file" name="mainimg" >
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text"  >
+                        <input class="file-path validate" type="text"   >
                     </div>
                 </div>
                 <div class="row">
@@ -156,7 +162,9 @@
                     </div>
                 </div>
                 {# ------ tags -----#}
-                <div class="chips chips-placeholder"></div>
+                <div class="chips chips-placeholder" name="tags">
+                    <input id="mamad" class="custom-class" name="somayeh">
+                </div>
             </div>
 
             {# ------ Gallery -----#}
@@ -253,15 +261,18 @@
                 </div>
 
             </div>
-            <input class="waves-effect waves-light btn"  type="submit" >ثبت</a>
+        <button id="addbutton" class="waves-effect waves-light btn"  onclick="wut()" type="submit" value='select' >ثبت</button>
+
+
         </div>
 
     </form>
+
 </div>
 
 
 {% block footerjs %}
-    <script src="/static/js/paneladd.js"></script>
+
 {% endblock footerjs %}
 
 

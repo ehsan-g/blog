@@ -147,8 +147,11 @@ nav .btn:hover, nav .btn-large:hover, nav .btn-small:hover{
     background-color: #EF9A9A !important;
 }
 
+.brand-logo {
+    width: 100px!important;
+}
 .brand-logo > img{
-    width: 30%;
+    width: 50%;
     margin-top: 20px;
     margin-left: 20px;
 }

@@ -31,7 +31,7 @@ def get_count(q):
     return count
 
 
-# ver. 0.2.3
+# ver. 0.2.9
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -42,7 +42,7 @@ def users():
     if not session.get('logged_in'):
         return redirect('/login')
     else:
-        user_query = User.query.order_by(User.create_date.desc())
+        user_query = dbsession.query(User).order_by(User.create_date.desc())
     # Iterate users and get a list of user objects
     all_users = []
     for user in user_query:
@@ -69,7 +69,8 @@ def all_posts():
     start = int(request.form.get("start"))
     quantity = int(request.form.get("quantity"))
 
-    posts = Post.query
+    posts = dbsession.query(Post)
+    print(f"this is all the posts {posts}")
 
     # Fast: SELECT COUNT(*) FROM Posts
     posts_count = get_count(posts)
@@ -80,49 +81,46 @@ def all_posts():
                        "error": "There are no posts",
                        "start": 0}
                        ), 422
-
-    post_query = Post.query \
+    print("fuck")
+    post_query = dbsession.query(Post) \
         .order_by(Post.published.desc()) \
         .offset(start) \
         .limit(quantity)
     # Iterate posts and get a list of post objects
     all_posts = []
     for post in post_query:
+        for cat in post.categories:
+            print(f"cat is {cat}")
         all_posts.append(post)
-        print(f"the start and end and i: {start}, {posts_count} , the post is {post.id}")
+
+
+
 
     # Get a list of jason per post containing detail of the post
     jsList = []
     for post in all_posts:
         json = {
             "id": post.id,
+            'cats': [c.name for c in post.categories],
+            'duration': post.duration,
             "aut_fav": post.aut_fav,
-            "uptittle": post.uptittle,
             "tittle": post.tittle,
+            "uptittle": post.uptittle,
             "mainp": post.mainp,
-            "mainimg": post.mainimg,
+            # "mainimg": post.mainimg.decode(),
+            'mainalt': post.mainalt,
             "tittle2": post.tittle2,
-            "secondp": post.secondp,
             "video": post.video,
-            "galtittle": post.galtittle,
-            "galtext": post.galtext,
-            "galimg1": post.galimg1,
-            "galimgtxt1": post.galimgtxt1,
-            "galimg2": post.galimg2,
-            "galimgtxt2": post.galimgtxt2,
-            "galimg3": post.galimg3,
-            "galimgtxt3": post.galimgtxt3,
-            "galimg4": post.galimg4,
-            "galimgtxt4": post.galimgtxt4,
-            "galimg5": post.galimg5,
-            "galimgtxt5": post.galimgtxt5,
-            "galimg6": post.galimg6,
-            "galimgtxt6": post.galimgtxt6,
-            "tittle3": post.tittle3,
-            "subtittle": post.subtittle,
-            "thirdp": post.thirdp,
+            "secondp": post.secondp,
+            'subtittle': post.subtittle,
+            'tittle3': post.tittle3,
+            'thirdp': post.thirdp,
+            # 'album': post.album.decode(),
+            'albumtittle': post.albumtittle,
+            'albump': post.albump,
+            'albumimgalt': post.albumimgalt,
+            'albumimgtxt': post.albumimgtxt,
             'published': post.published,
-            "duration": post.duration,
             "author_id": post.author_id,
             "author_name": post.user.name,
         }
@@ -130,6 +128,7 @@ def all_posts():
 
     # Reverse the posts order and return
     # jsList.reverse()
+    print(jsList)
     return jsonify(jsList)
 
 
@@ -149,7 +148,7 @@ def register():
         return print('Try again because:', v.errors)
 
     # check if the email already exists
-    dbemail = User.query.filter_by(email=document['email']).first()
+    dbemail = dbsession.query(User).filter_by(email=document['email']).first()
     if dbemail:
         return render_template("error.html", message="This Email has already registered!")
 
@@ -170,14 +169,14 @@ def login_check():
     input_email = request.form.get("email", None)
     input_password = request.form.get("pswd", None)
 
-    dbemail = User.query.filter_by(email=input_email).first()
+    dbemail = dbsession.query(User).filter_by(email=input_email).first()
 
     # check if email in db
     if not dbemail:
         return render_template('try_again.html')
 
     # email in db compare pass
-    user = User.query.filter_by(email=input_email).first()
+    user = dbsession.query(User).filter_by(email=input_email).first()
     dbpass = user.password
     if dbpass != input_password:
         return render_template('try_again.html')
@@ -209,19 +208,21 @@ def panel():
 @app.route("/users/user/mypage", methods=["GET"])
 def my_page():
     """add a post."""
+    print("my_page")
     if not session.get('logged_in'):
         return redirect('/login')
-    else:
-        author_name = session['user_name']
-        author_id = session['user_id']
 
-        print(f"author_id , author_name is {author_id}, {author_name}")
+    author_name = session['user_name']
+    author_id = session['user_id']
+    cats = dbsession.query(Category).all()
+
     published = datetime.utcnow()
-    return render_template('paneladd.html', author_id=author_id, author_name=author_name, published=published)
+    return render_template('paneladd.html', author_id=author_id, author_name=author_name, published=published, cats=cats)
 
 
-@app.route("/myposts", methods=["POST"])
+@app.route("/myposts", methods=["POST", "GET"])
 def my_posts():
+    print("my_posts")
     if not session.get('logged_in'):
         return redirect('/login')
     author_id = session['user_id']
@@ -229,20 +230,18 @@ def my_posts():
     # Get start and end point for posts to generate. set the 0 and 5 for the get request
     start = int(request.form.get("start"))
     quantity = int(request.form.get("quantity"))
-    print(f"user start is {start}")
 
     # Count posts
-    user = User.query.get(author_id)
+    user = dbsession.query(User).get(author_id)
     posts = user.posts
     if not posts:
         return jsonify({"error": "There are no posts"}), 422
-    print(posts)
+
 
     # Fast: SELECT COUNT(*) FROM Posts
-    posts_count = Post.query.filter_by(author_id=author_id).count()
-    print(f"user post count: {posts_count}")
+    posts_count = dbsession.query(Post).filter_by(author_id=author_id).count()
 
-    post_query = Post.query \
+    post_query = dbsession.query(Post) \
         .filter_by(author_id=author_id) \
         .order_by(Post.published.desc()) \
         .offset(start) \
@@ -251,87 +250,115 @@ def my_posts():
     all_posts = []
     for post in post_query:
         all_posts.append(post)
+        print('sdddddddddd', post.albumimgtxt)
 
     # Get a list of jason per post containing detail of the post
     jsList = []
     for post in all_posts:
         json = {
             "id": post.id,
+            'cats': [c.name for c in post.categories],
+            'duration': post.duration,
             "aut_fav": post.aut_fav,
-            "uptittle": post.uptittle,
             "tittle": post.tittle,
+            "uptittle": post.uptittle,
             "mainp": post.mainp,
-            "mainimg": post.mainimg,
+            # "mainimg": post.mainimg.read(),
+            'mainalt': post.mainalt,
             "tittle2": post.tittle2,
-            "secondp": post.secondp,
             "video": post.video,
-            "galtittle": post.galtittle,
-            "galtext": post.galtext,
-            "galimg1": post.galimg1,
-            "galimgtxt1": post.galimgtxt1,
-            "galimg2": post.galimg2,
-            "galimgtxt2": post.galimgtxt2,
-            "galimg3": post.galimg3,
-            "galimgtxt3": post.galimgtxt3,
-            "galimg4": post.galimg4,
-            "galimgtxt4": post.galimgtxt4,
-            "galimg5": post.galimg5,
-            "galimgtxt5": post.galimgtxt5,
-            "galimg6": post.galimg6,
-            "galimgtxt6": post.galimgtxt6,
-            "tittle3": post.tittle3,
-            "subtittle": post.subtittle,
-            "thirdp": post.thirdp,
+            "secondp": post.secondp,
+            'subtittle'  : post.subtittle,
+            'tittle3': post.tittle3,
+            'thirdp' : post.thirdp,
+            # 'album' : post.album.decode(),
+            'albumtittle': post.albumtittle,
+            'albump'  : post.albump,
+            'albumimgalt' : post.albumimgalt,
+            'albumimgtxt' : post.albumimgtxt,
             'published': post.published,
-            "duration": post.duration,
             "author_id": post.author_id,
             "author_name": post.user.name,
         }
         jsList.append(json)
-
+    print(jsList)
     return jsonify(jsList)
 
 
 @app.route("/api/user/addpost", methods=["POST", "GET"])
 def add_post():
+    print("add_post")
     if not session.get('logged_in'):
         return redirect('/login')
     else:
         author_id = session['user_id']
-    user = User.query.get(author_id)
-    print('1')
+    user = dbsession.query(User).get(author_id)
     req = request.form
-    print(req)
-    for catnames, aut_fav, duration, uptittle, tittle, mainp, mainimg, mainalt, \
-        tittle2, secondp, video, \
-        tittle3, subtittle, thirdp, hashtags, \
-        album, albumtittle, albump, \
-        albumalt1, albumalt2, albumalt3, albumalt4, albumalt5, albumalt6, \
-        albumtxt1, albumtxt2, albumtxt3, albumtxt4, albumtxt5, albumtxt6 in req:
+    print(request.files)
 
-        if aut_fav is None:
-            aut_fav = 'off'
-        catnames = catnames.split(';')
-        hashtags = hashtags.split(';')
-        albumimgalt = [albumalt1, albumalt2, albumalt3, albumalt4, albumalt5, albumalt6]
-        albumimgtxt = [albumtxt1, albumtxt2, albumtxt3, albumtxt4, albumtxt5, albumtxt6]
+    catsform = request.form.getlist('theselect')
+    duration = request.form['duration']
+    aut_fav = request.form.get('aut_fav')
+    tittle = request.form['tittle']
+    uptittle = request.form['uptittle']
+    mainp = request.form['mainp']
+    mainimg = request.files['mainimg'].read()
+    mainalt = request.form['mainalt']
+    tittle2 = request.form['tittle2']
+    video = request.form['video']
+    secondp = request.form['secondp']
+    subtittle = request.form['subtitle']
+    tittle3 = request.form['duration']
+    thirdp = request.form['thirdp']
+    hashtags = request.form.get('tags')
+    album = request.form['album'].encode()
+    albumtittle = request.form['albumtiitle']
+    albump = request.form['albump']
+    albumalt1 = request.form['albumalt1']
+    albumtxt1 = request.form['albumtxt1']
+    albumalt2 = request.form['albumalt2']
+    albumtxt2 = request.form['albumtxt2']
+    albumalt3 = request.form['albumalt3']
+    albumtxt3 = request.form['albumtxt3']
+    albumalt4 = request.form['albumalt4']
+    albumtxt4 = request.form['albumtxt4']
+    albumalt5 = request.form['albumalt5']
+    albumtxt5 = request.form['albumtxt5']
+    albumalt6 = request.form['albumalt6']
+    albumtxt6 = request.form['albumtxt6']
 
-        user_post = user.add_post(
-            catnames=catnames, aut_fav=aut_fav, duration=duration, uptittle=uptittle, tittle=tittle, mainp=mainp,
-            mainimg=mainimg, mainalt=mainalt, tittle2=tittle2, secondp=secondp, video=video,
-            tittle3=tittle3, subtittle=subtittle, thirdp=thirdp, hashtags=hashtags,
-            album=album, albumtittle=albumtittle, albump=albump, albumalt=albumimgalt,
-            albumimgtxt=albumimgtxt)
 
-        dbsession.add(user_post)
+    if aut_fav is None:
+        aut_fav = 'off'
+    # catnames = cats.split(';')
+    # # hashtags = hashtags.split(';')
+    albumimgalt = [albumalt1, albumalt2, albumalt3, albumalt4, albumalt5, albumalt6]
+    albumimgtxt = [albumtxt1, albumtxt2, albumtxt3, albumtxt4, albumtxt5, albumtxt6]
 
-        for name in catnames:
-            cat = user_post.add_cat(name)
-            user_post.categories.append(cat)
+    user_post = user.add_post(
+        aut_fav=aut_fav, duration=duration, uptittle=uptittle, tittle=tittle, mainp=mainp,
+        mainimg=mainimg, mainalt=mainalt, tittle2=tittle2, secondp=secondp, video=video,
+        tittle3=tittle3, subtittle=subtittle, thirdp=thirdp, hashtags=hashtags,
+        album=album, albumtittle=albumtittle, albump=albump,
+        albumimgalt=albumimgalt, albumimgtxt=albumimgtxt
+    )
+    print("vfdvfdvfd", type(catsform[0]))
+    # Finds the cats which we received from front dropdown
+    cats = dbsession.query(Category).filter(Category.name.in_(catsform)).all()
+    print(cats)
+    user_post.add_cats(cats)
 
-        dbsession.add(user_post)
-        dbsession.commit()
-        dbsession.close()
+    print(user.name, user_post)
+   # dbsession.add(user_post)
+    #
+    #     for name in catnames:
+    #         cat = user_post.add_cat(name)
+    #         user_post.categories.append(cat)
+    #
+    #     dbsession.add(user_post)
+    dbsession.commit()
+    #     dbsession.close()
+    return redirect('/users/user/mypage')
 
 
 @app.route("/posts/categories", methods=["GET"])
@@ -340,20 +367,18 @@ def categories():
         return redirect('/login')
 
     author_id = session['user_id']
-    cats = Category.query.all()
+    cats = dbsession.query(Category).all()
     print(cats)
     return render_template('categories.html', author_id=author_id, cats=cats)
 
 
 @app.route("/api/posts/categories/all", methods=["GET"])
 def all_cats():
-    cats = Category.query.all()
-
-    cat_query = Category.query.all()
+    cats = dbsession.query(Category)
 
     # Iterate posts and get a list of post objects
     all_posts = []
-    for cat in cat_query:
+    for cat in cats:
         all_posts.append(cat)
         print(cat)
 
@@ -363,8 +388,8 @@ def all_cats():
     jsList = []
     for cat in cats:
         json = {
-            "id": Category .id,
-            "name": Category.name,
+            "id": cat.id,
+            "name": cat.name,
         }
         jsList.append(json)
 
@@ -402,5 +427,5 @@ def remove_cat(cat_id):
 
 
 if __name__ == "__main__":
-    app.secret_key = os.urandom(12)
+    app.secret_key = os.urandom(1)
     app.run(debug=True, host='0.0.0.0', port=4090)

@@ -33,15 +33,16 @@ class User(db.Model):
     def add_post(self, aut_fav, duration, uptittle, tittle, mainp,
                  mainimg, mainalt, tittle2, secondp, video,
                  tittle3, subtittle, thirdp, hashtags,
-                 album, albumtittle, albump, albumimgalt,
-                 albumimgtxt):
+                 album, albumtittle, albump,
+                 albumimgalt, albumimgtxt
+                 ):
 
-        p = Post(aut_fav=aut_fav, duration=duration, uptittle=uptittle, tittle=tittle, mainp=mainp,
-                 mainimg=mainimg, mainalt=mainalt, tittle2=tittle2, secondp=secondp, video=video,
-                 tittle3=tittle3, subtittle=subtittle, thirdp=thirdp, hashtags=hashtags,
-                 album=album, albumtittle=albumtittle, albump=albump, albumalt=albumimgalt,
-                 albumimgtxt=albumimgtxt, user=self)
-                # instead of setting author_id=self.id we send the object to user
+        p = Post( aut_fav=aut_fav, duration=duration, uptittle=uptittle, tittle=tittle, mainp=mainp,
+                  mainimg=mainimg, mainalt=mainalt, tittle2=tittle2, secondp=secondp, video=video,
+                  tittle3=tittle3, subtittle=subtittle, thirdp=thirdp, hashtags=hashtags,
+                  album=album, albumtittle=albumtittle, albump=albump,
+                  albumimgalt=albumimgalt, albumimgtxt=albumimgtxt, user=self)
+
 
         return p
 
@@ -71,8 +72,8 @@ class Post(db.Model):
     thirdp = sa.Column(sa.String)
     hashtags = sa.Column(sa.ARRAY(sa.String))
     albumtittle = sa.Column(sa.String)
-    albumtext = sa.Column(sa.String)
     album = sa.Column(sa.ARRAY(sa.LargeBinary))
+    albump = sa.Column(sa.String)
     albumimgtxt = sa.Column(sa.ARRAY(sa.String))
     albumimgalt = sa.Column(sa.ARRAY(sa.String))
     published = sa.Column(sa.DateTime, nullable=False, default=datetime.utcnow)
@@ -83,15 +84,13 @@ class Post(db.Model):
     user = sa.orm.relationship("User", back_populates="posts", lazy=True, foreign_keys=author_id, uselist=False)
     categories = sa.orm.relationship("Category", back_populates="posts", lazy=True, secondary='post_category')
 
-    def add_cat(self, name):
-        session = object_session(self)
-        cat = session.query(Category).filter(Category.name == name).first()
-        print(f"this one {cat}")
-        if cat is None:
-            cat = Category(name=name)
+    def add_cats(self, cats):
+        print(f"this one {cats}")
+        for cat in cats:
+            self.categories.append(cat)
 
         print('bye')
-        return cat
+        return cats
 
 
 class Category(db.Model):
@@ -101,10 +100,9 @@ class Category(db.Model):
     name = sa.Column(sa.String, nullable=False)
     posts = sa.orm.relationship("Post", back_populates="categories", lazy=True, secondary='post_category')
 
-    #  Please check out classmethod, instance method and static method
+    #  check out class method, instance method and static method
     @classmethod
     def create_cat(cls, name):
-        print("here")
         newcat = cls(name=name)
         return newcat
 
