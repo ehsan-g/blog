@@ -31,7 +31,7 @@
                             <td >{{ cat.id }}</td>
                             <td >{{ cat.name }}</td>
                             <td>
-                                <form action="{{ url_for('remove_cat', cat_id=cat.id )}}"method="post">
+                                <form action="{{ url_for('remove_cat', cat_id=cat.id )}}" method="post">
                                     <button class="remove btn waves-effect waves-light red accent-1" type="submit" name="action">
                                     <i class="material-icons">clear</i>
                                     </button>

@@ -5,6 +5,7 @@
     <!--          Meta Tags -->
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}">
     <!--          ViewPort -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--          Custom CSS-->
@@ -30,12 +31,12 @@
     {% endblock headjs %}
 
 </head>
-<body >
+<body id="panel">
 
 <div class="container">
     <ul class="sidenav" id="mobile-demo">
         <li><a href="{{ url_for('panel') }}">داشبورد</a></li>
-        <li><a href="{{ url_for('my_page')}}">نگارش من</a></li>
+        <li><a href="{{ url_for('my_page')}}">نوشته من</a></li>
         <li><a href="{{ url_for('categories') }}">دسته‌بندی</a></li>
         <li><a href="{{ url_for('users') }}">کاربران</a></li>
         <li> <a href="{{ url_for('logout')}}" class="waves-effect waves-light btn">Log out<i class="material-icons">power_settings_new</i></a></li>
@@ -47,7 +48,7 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('users') }}">کاربران</a></li>
                 <li><a href="{{ url_for('categories') }}">دسته‌بندی</a></li>
-                <li><a href="{{ url_for('my_page', author_id=author_id) }}">نگارش من</a></li>
+                <li><a href="{{ url_for('my_page', author_id=author_id) }}">نوشته من</a></li>
                 <li><a href="{{ url_for('panel') }}">داشبورد</a></li>
                 <a href="{{ url_for('logout')}}" class="waves-effect waves-light btn"><i class="material-icons">power_settings_new</i></a>
             </ul>

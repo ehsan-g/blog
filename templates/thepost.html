@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+   SAY - {{post.tittle}}
+{% endblock %}
+
+
+{% block body %}
+    <div class="container" id="thepost">
+        <div id="firstsec" class=" section row">
+            <div id="mainimg" class="col s12 m12 l6">
+                <img src="/{{post.mainimg}}">
+            </div>
+            <div class="col s12 m12 l6">
+                <h6>{{ post.uptittle }}</h6>
+                <h5>{{ post.tittle }}</h5>
+                <p>{{ post.mainp }}</p>
+            </div>
+        </div>
+
+        <div class="col s12 m12 l6 center">
+            <blockquote>{{ post.quote }}</blockquote>
+        </div>
+
+        <div id="secsec" class="section ">
+            <video src="{{post.video}}" controls></video>
+            <h5>{{ post.tittle2 }}</h5>
+            <p class="flowtxt" >{{ post.secondp }}</p>
+
+        </div>
+        </div>
+
+        <div class=" section container center">
+            <div >
+                <h5>{{ post.albumtittle }}</h5>
+                <p>{{ post.albump }}</p>
+            </div>
+        </div>
+        <div class=" section row center">
+            <div id="album" class=" section row center">
+               <div class="col s12 center"> <img src="/{{ post.album[0] }}"><p>{{ post.albumimgtxt[0] }}</p></div>
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}
+

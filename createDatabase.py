@@ -35,5 +35,3 @@ with app.app_context():
             print("Do you even Know me?")
 
     print("Farewell Sir!")
-
-

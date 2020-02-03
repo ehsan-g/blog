@@ -89,10 +89,13 @@ function add_post(content) {
     overlay.className = 'overlay';
     card.appendChild(overlay);
 
+    const a = document .createElement("a");
+    a.href = "posts/post/" + content.id;
     const overtxt = document.createElement('div');
     overtxt.className = 'text';
     overtxt.innerHTML = content.tittle;
-    overlay.appendChild(overtxt)
+    overlay.appendChild(a);
+    a.appendChild(overtxt)
 
 
 ;

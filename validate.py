@@ -8,8 +8,8 @@ def f_name(field, value, error):
         print(error)
 
 
-schema = {'name': {'check_with': f_name, 'required': True, 'minlength': 4, 'maxlength': 70, 'type': 'string', 'empty': False},
-          'lastname': {'check_with': f_name, 'required': True, 'minlength': 4, 'maxlength': 70, 'type': 'string', 'empty': False},
+schema = {'name': {'check_with': f_name, 'required': True, 'minlength': 2, 'maxlength': 70, 'type': 'string', 'empty': False},
+          'lastname': {'check_with': f_name, 'required': True, 'minlength': 1, 'maxlength': 70, 'type': 'string', 'empty': False},
           'email': {'required': True, 'maxlength': 255, 'type': 'string', 'regex': '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'},
           'password': {'required': True, 'minlength': 6, 'type': 'string', 'empty': False, },
           'role': {'type': 'list', 'allowed': ['Nakama', 'admin', 'Admin']}

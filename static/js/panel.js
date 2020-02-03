@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Start with first post.
 counter = 0;
 // Load posts 20 at a time.
-quantity = 18;
+quantity = 5;
 // let the window scroll function load
 
 

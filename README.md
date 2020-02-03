@@ -14,7 +14,7 @@ All the library are linked to their documents for installation and further readi
 1. SQLAlchemy-Continuum
 2. Cerberus
 3 .SQLAlchemy-Utils
-4. Image (To be Decided)
+4. Image
 5. Flask-RESTful API
 6. Flask-WTF
 7. Flask-Login
@@ -54,12 +54,11 @@ Various utility functions, new data types and helpers for SQLAlchemy
 - Model mixins: Timestamp (created, updated times)
     
 
-4- Media ( To Be Decided )
+4- [Media](https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/) ( to be upgraded )
 
-- In DB or FileSystem
-- Using Blob or Libraries such as: Python Imaging Library, Flask-AppBuilder, SQLAlchemy-ImageAttach or sqlalchemy-media
+- Using Flask image upload and if neccessary the following libriaries will be implemented. 
+- Libraries: Python Imaging Library, Flask-AppBuilder, SQLAlchemy-ImageAttach or sqlalchemy-media.
  
-
 
 5- [Flask-RESTful API](https://flask-restful.readthedocs.io/en/latest/quickstart.html)
 

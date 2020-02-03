@@ -2,7 +2,8 @@ import os
 from models import *
 from validate import *
 import flask
-from flask import Flask, render_template, request, jsonify, redirect, session
+from flask import Flask, render_template, request, jsonify, redirect, session, flash
+from werkzeug.utils import secure_filename
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -16,8 +17,14 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024  # will limit the maximum allowed payload -- 1 megabytes
 db.init_app(app)
 
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+UPLOAD_FOLDER = 'static/img/posts'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
+
+
+# check if a file extension is valid
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -59,29 +66,26 @@ def users():
             "role": user.role,
         }
         jsList.append(json)
-        print(jsList)
     return jsonify(jsList)
 
 
 @app.route("/api/posts/all", methods=["POST"])
 def all_posts():
+    print('all_post')
     # Get start and end point for posts to generate. set the 0 and 5 for the get request
     start = int(request.form.get("start"))
     quantity = int(request.form.get("quantity"))
 
     posts = dbsession.query(Post)
-    print(f"this is all the posts {posts}")
 
     # Fast: SELECT COUNT(*) FROM Posts
     posts_count = get_count(posts)
-    print(f"all post count: {posts_count}")
-
+    print(posts_count)
     if posts_count == 0:
         return jsonify({
                        "error": "There are no posts",
                        "start": 0}
                        ), 422
-    print("fuck")
     post_query = dbsession.query(Post) \
         .order_by(Post.published.desc()) \
         .offset(start) \
@@ -89,8 +93,6 @@ def all_posts():
     # Iterate posts and get a list of post objects
     all_posts = []
     for post in post_query:
-        for cat in post.categories:
-            print(f"cat is {cat}")
         all_posts.append(post)
 
 
@@ -107,7 +109,7 @@ def all_posts():
             "tittle": post.tittle,
             "uptittle": post.uptittle,
             "mainp": post.mainp,
-            # "mainimg": post.mainimg.decode(),
+            # "mainimg": post.mainimg.read(),
             'mainalt': post.mainalt,
             "tittle2": post.tittle2,
             "video": post.video,
@@ -115,7 +117,7 @@ def all_posts():
             'subtittle': post.subtittle,
             'tittle3': post.tittle3,
             'thirdp': post.thirdp,
-            # 'album': post.album.decode(),
+            # 'album': post.album.read(),
             'albumtittle': post.albumtittle,
             'albump': post.albump,
             'albumimgalt': post.albumimgalt,
@@ -128,9 +130,15 @@ def all_posts():
 
     # Reverse the posts order and return
     # jsList.reverse()
-    print(jsList)
     return jsonify(jsList)
 
+
+@app.route("/posts/post/<int:post_id>", methods=["GET"])
+def the_post(post_id):
+    print('the_post')
+    post = dbsession.query(Post).get(post_id)
+
+    return render_template('thepost.html',post=post)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -197,6 +205,7 @@ def logout():
 
 @app.route('/panel', methods=['GET'])
 def panel():
+    print('panel')
     if not session.get('logged_in'):
         return redirect('/login')
     else:
@@ -216,85 +225,76 @@ def my_page():
     author_id = session['user_id']
     cats = dbsession.query(Category).all()
 
-    published = datetime.utcnow()
-    return render_template('paneladd.html', author_id=author_id, author_name=author_name, published=published, cats=cats)
-
-
-@app.route("/myposts", methods=["POST", "GET"])
-def my_posts():
-    print("my_posts")
-    if not session.get('logged_in'):
-        return redirect('/login')
-    author_id = session['user_id']
-
-    # Get start and end point for posts to generate. set the 0 and 5 for the get request
-    start = int(request.form.get("start"))
-    quantity = int(request.form.get("quantity"))
-
-    # Count posts
-    user = dbsession.query(User).get(author_id)
-    posts = user.posts
-    if not posts:
-        return jsonify({"error": "There are no posts"}), 422
-
-
-    # Fast: SELECT COUNT(*) FROM Posts
-    posts_count = dbsession.query(Post).filter_by(author_id=author_id).count()
-
-    post_query = dbsession.query(Post) \
+    posts = dbsession.query(Post) \
         .filter_by(author_id=author_id) \
         .order_by(Post.published.desc()) \
-        .offset(start) \
-        .limit(quantity)
-    # Iterate posts and get a list of post objects
-    all_posts = []
-    for post in post_query:
-        all_posts.append(post)
-        print('sdddddddddd', post.albumimgtxt)
 
-    # Get a list of jason per post containing detail of the post
-    jsList = []
-    for post in all_posts:
-        json = {
-            "id": post.id,
-            'cats': [c.name for c in post.categories],
-            'duration': post.duration,
-            "aut_fav": post.aut_fav,
-            "tittle": post.tittle,
-            "uptittle": post.uptittle,
-            "mainp": post.mainp,
-            # "mainimg": post.mainimg.read(),
-            'mainalt': post.mainalt,
-            "tittle2": post.tittle2,
-            "video": post.video,
-            "secondp": post.secondp,
-            'subtittle'  : post.subtittle,
-            'tittle3': post.tittle3,
-            'thirdp' : post.thirdp,
-            # 'album' : post.album.decode(),
-            'albumtittle': post.albumtittle,
-            'albump'  : post.albump,
-            'albumimgalt' : post.albumimgalt,
-            'albumimgtxt' : post.albumimgtxt,
-            'published': post.published,
-            "author_id": post.author_id,
-            "author_name": post.user.name,
-        }
-        jsList.append(json)
-    print(jsList)
-    return jsonify(jsList)
+
+    published = datetime.utcnow()
+    return render_template('mypage.html', author_id=author_id, author_name=author_name,
+                           published=published, posts=posts, cats=cats)
 
 
 @app.route("/api/user/addpost", methods=["POST", "GET"])
 def add_post():
+
+    global file_path, album_paths
+
     print("add_post")
     if not session.get('logged_in'):
         return redirect('/login')
     else:
         author_id = session['user_id']
     user = dbsession.query(User).get(author_id)
-    req = request.form
-    print(request.files)
+
+
+    # Create directory for uploaded images
+    post_tittle = request.form['tittle']
+    dir_name = f'{UPLOAD_FOLDER}/{post_tittle}'
+
+    # Create directory for uploaded images    # Create directory for uploaded images    # Create directory for uploaded images    # Create directory for uploaded images
+
+    try:
+        # Create target Directory
+        os.mkdir(dir_name)
+        print("Directory ", dir_name,  " Created ")
+
+    except FileExistsError:
+        print("Directory ", dir_name,  " already exists")
+
+
+
+    # first take care of the main image
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'mainimg' not in request.files:
+            flash('No file part')
+            return jsonify({
+                "error": "There is no image attached"}), 433
+
+        file = request.files['mainimg']
+
+        if file.filename == '':
+            flash('No selected file')
+            return jsonify({
+                "error": "Image is empty"}), 434
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(dir_name, filename)
+            print(file_path)
+            file.save(file_path)
+
+        album_paths = []
+    # Second take care of the album images
+        for file in request.files.getlist("album"):
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                album_path = os.path.join(dir_name, filename)
+                print(album_path)
+                album_paths.append(album_path)
+                print(album_paths)
+                file.save(album_path)
 
     catsform = request.form.getlist('theselect')
     duration = request.form['duration']
@@ -302,8 +302,9 @@ def add_post():
     tittle = request.form['tittle']
     uptittle = request.form['uptittle']
     mainp = request.form['mainp']
-    mainimg = request.files['mainimg'].read()
+    mainimg = file_path
     mainalt = request.form['mainalt']
+    quote = request.form['quote']
     tittle2 = request.form['tittle2']
     video = request.form['video']
     secondp = request.form['secondp']
@@ -311,7 +312,7 @@ def add_post():
     tittle3 = request.form['duration']
     thirdp = request.form['thirdp']
     hashtags = request.form.get('tags')
-    album = request.form['album'].encode()
+    album = album_paths
     albumtittle = request.form['albumtiitle']
     albump = request.form['albump']
     albumalt1 = request.form['albumalt1']
@@ -337,27 +338,33 @@ def add_post():
 
     user_post = user.add_post(
         aut_fav=aut_fav, duration=duration, uptittle=uptittle, tittle=tittle, mainp=mainp,
-        mainimg=mainimg, mainalt=mainalt, tittle2=tittle2, secondp=secondp, video=video,
+        mainimg=mainimg, mainalt=mainalt, quote=quote, tittle2=tittle2, secondp=secondp, video=video,
         tittle3=tittle3, subtittle=subtittle, thirdp=thirdp, hashtags=hashtags,
         album=album, albumtittle=albumtittle, albump=albump,
         albumimgalt=albumimgalt, albumimgtxt=albumimgtxt
     )
-    print("vfdvfdvfd", type(catsform[0]))
+
     # Finds the cats which we received from front dropdown
     cats = dbsession.query(Category).filter(Category.name.in_(catsform)).all()
     print(cats)
     user_post.add_cats(cats)
 
     print(user.name, user_post)
-   # dbsession.add(user_post)
-    #
-    #     for name in catnames:
-    #         cat = user_post.add_cat(name)
-    #         user_post.categories.append(cat)
-    #
-    #     dbsession.add(user_post)
+
     dbsession.commit()
-    #     dbsession.close()
+    return redirect('/users/user/mypage')
+
+
+@app.route("/remove/post/<int:post_id>", methods=["POST"])
+def remove_post(post_id):
+    if not session.get('logged_in'):
+        return redirect('/login')
+
+    post = dbsession.query(Post).get(post_id)
+    print(post)
+    dbsession.delete(post)
+    dbsession.commit()
+
     return redirect('/users/user/mypage')
 
 
@@ -428,4 +435,4 @@ def remove_cat(cat_id):
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(1)
-    app.run(debug=True, host='0.0.0.0', port=4090)
+    app.run(debug=True, host='0.0.0.0', port=1818)

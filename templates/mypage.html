@@ -1,6 +1,8 @@
 {% extends "panelLayout.html" %}
 
-{% block title %} Let's SAY something{% endblock %}
+{% block title %}
+    blog - My page
+{% endblock %}
 
 
 {% block headjs %}
@@ -16,20 +18,35 @@
     {# --------------------------------------- Posts table  --------------------------------------------#}
 <div id="theaddpage" class="container">
 {#    <div class="activediv">#}
-            <table id="table" class="highlight">
+            <table id="table" class="highlight centered">
                 <thead>
                 <tr >
                     <th>Post id</th>
                     <th>Favorite</th>
                     <th>Tittle</th>
-                    <th>Author id</th>
                     <th>Author Name</th>
                     <th>Published</th>
                 </tr>
                 </thead>
 
                 <tbody>
+                {% for post in posts %}
+                    <tr >
+                        <td >{{ post.id }}</td>
+                        <td >{{ post.aut_fav }}</td>
+                        <td >{{ post.tittle }}</td>
+                        <td >{{ author_name }}</td>
+                        <td >{{ post.published }}</td>
+                        <td>
+                            <form action="{{ url_for('remove_post', post_id=post.id )}}" method="post">
+                                <button class="remove btn waves-effect waves-light red accent-1" type="submit" name="action">
+                                    <i class="material-icons">clear</i>
+                                </button>
+                            </form>
+                        </td>
 
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
     </div>
@@ -92,25 +109,25 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s8">
-                        <input value="Alvin" id="tittle" type="text" data-length="20" class="validate" name="tittle" required>
+                        <input value="Alvin" id="tittle" type="text" data-length="50" class="validate" name="tittle" required>
                         <label for="tittle">عنوان اصلی</label>
                     </div>
                     <div class="input-field col s4">
-                        <input id="uptittle" type="text" data-length="10"  class="validate" name="uptittle">
+                        <input id="uptittle" type="text" data-length="25"  class="validate" name="uptittle">
                         <label for="uptittle">تیتر بالا</label>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="input-field col s12">
-                        <textarea id="mainp" class="materialize-textarea validate" data-length="120" name="mainp" ></textarea>
+                        <textarea id="mainp" class="materialize-textarea validate" data-length="1100" name="mainp" ></textarea>
                         <label for="mainp">متن اصلی</label>
                     </div>
                 </div>
                 <div class="file-field input-field" >
                     <div class="btn">
                         <span>عکس اصلی</span>
-                        <input id="mainimg"  type="file" name="mainimg" >
+                        <input id="mainimg"  type="file" name="mainimg"  >
                     </div>
                     <div class="file-path-wrapper">
                         <input class="file-path validate" type="text"   >
@@ -118,8 +135,14 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="mainalt" class="materialize-textarea validate" data-length="120" name="mainalt">
+                        <input id="mainalt" type="text" class=" validate" data-length="50" name="mainalt">
                         <label for="mainalt">alt</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="quote" type="text" class=" validate" data-length="500" name="quote">
+                        <label for="quote">quote</label>
                     </div>
                 </div>
             </div>
@@ -127,19 +150,19 @@
             <div class="section z-depth-3"> بخش دوم
                 <div class="row">
                     <div class="input-field col s8">
-                        <input id="tittle2" type="text" data-length="20" class="validate" name="tittle2">
+                        <input id="tittle2" type="text" data-length="50" class="validate" name="tittle2">
                         <label for="tittle2">عنوان دوم</label>
                     </div>
                     <div class="input-field col s4">
                         <input id="video" type="url"  class="validate" name="video">
                         <label for="video">لینک ویدئو</label>
-                        <span class="helper-text" data-error="لطفا لینک وارد کنید" >زمان مطلالعه</span>
+                        <span class="helper-text" data-error="لطفا لینک وارد کنید" ></span>
 
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                        <textarea id="secondp" class="materialize-textarea validate" data-length="120" name="secondp"></textarea>
+                        <textarea id="secondp" class="materialize-textarea validate" data-length="4000" name="secondp"></textarea>
                         <label for="secondp">متن دوم</label>
                     </div>
                 </div>
@@ -147,17 +170,17 @@
             <div class="section z-depth-3">بخش سوم
                 <div class="row">
                     <div class="input-field col s4">
-                        <input id="subtitle" type="text" data-length="10" class="validate" name="subtitle">
+                        <input id="subtitle" type="text" data-length="25" class="validate" name="subtitle">
                         <label for="subtitle">تیتر پایین</label>
                     </div>
                     <div class="input-field col s8">
-                        <input id="tittle3" type="text" data-length="20" class="validate" name="tittle3" >
+                        <input id="tittle3" type="text" data-length="50" class="validate" name="tittle3" >
                         <label for="tittle3">عنوان سوم</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                        <textarea id="thirdp" class="materialize-textarea validate" data-length="120" name="thirdp"></textarea>
+                        <textarea id="thirdp" class="materialize-textarea validate" data-length="700" name="thirdp"></textarea>
                         <label for="thirdp">متن سوم</label>
                     </div>
                 </div>
@@ -172,10 +195,10 @@
                 <div class="file-field input-field">
                     <div class="btn">
                         <span>آلبوم ۶ تایی</span>
-                        <input type="file" onchange="preview(this);" multiple>
+                        <input type="file" onchange="preview(this)"  name="album" multiple>
                     </div>
                     <div class="file-path-wrapper">
-                        <input id="multi" class="file-path validate" type="text" name="album">
+                        <input id="multi" class="file-path validate" type="text" multiple>
                         <img id="img1" >
                         <img id="img2" >
                         <img id="img3" >
@@ -188,7 +211,7 @@
                 <input class="waves-effect waves-light btn-small" id="rst" value="پاک کردن عکس ها"></a>
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="albumtiitle" class="materialize-textarea validate" data-length="120" name="albumtiitle" >
+                        <input id="albumtiitle" type="text" class=" validate" data-length="50" name="albumtiitle" >
                         <label for="albumtiitle">تیتر آلبوم</label>
                     </div>
                 </div>
@@ -201,67 +224,67 @@
 
                 <div class="row">
                     <div class="input-field col s6">
-                        <input id="albumalt1" type="text" class="validate" data-length="120" name="albumalt1">
+                        <input id="albumalt1" type="text" class="validate" data-length="50" name="albumalt1">
                         <label for="albumalt1">alt 1</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="albumtxt1" type="text" class="validate" data-length="120" name="albumtxt1" >
+                        <input id="albumtxt1" type="text" class="validate" data-length="50" name="albumtxt1" >
                         <label for="albumtxt1">عنوان عکس ۱</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <input id="albumalt2" type="text" class="validate" data-length="120" name="albumalt2">
+                        <input id="albumalt2" type="text" class="validate" data-length="50" name="albumalt2">
                         <label for="albumalt2">alt 2</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="albumtxt2" class="materialize-textarea validate" data-length="120" name="albumtxt2" >
+                        <input id="albumtxt2" type="text" class=" validate" data-length="50" name="albumtxt2" >
                         <label for="albumtxt2">عنوان عکس ۲</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <input id="albumalt3" type="text" class="validate" data-length="120" name="albumalt3">
+                        <input id="albumalt3" type="text" class="validate" data-length="50" name="albumalt3">
                         <label for="albumalt3">alt 3</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="albumtxt3" type="text" class="validate" data-length="120" name="albumtxt3" >
+                        <input id="albumtxt3" type="text" class="validate" data-length="50" name="albumtxt3" >
                         <label for="albumtxt3">عنوان عکس ۳</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <input id="albumalt4" type="text" class="validate" data-length="120" name="albumalt4">
+                        <input id="albumalt4" type="text" class="validate" data-length="50" name="albumalt4">
                         <label for="albumalt4">alt 4</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="albumtxt4" type="text" class="validate" data-length="120" name="albumtxt4" >
+                        <input id="albumtxt4" type="text" class="validate" data-length="50" name="albumtxt4" >
                         <label for="albumtxt4">عنوان عکس ۴</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <input id="albumalt5" type="text" class="validate" data-length="120" name="albumalt5">
+                        <input id="albumalt5" type="text" class="validate" data-length="50" name="albumalt5">
                         <label for="albumalt5">alt 5</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="albumtxt5" type="text" class="validate" data-length="120" name="albumtxt5" >
+                        <input id="albumtxt5" type="text" class="validate" data-length="50" name="albumtxt5" >
                         <label for="albumtxt5">عنوان عکس ۵</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <input id="albumalt6" type="text" class="validate" data-length="120" name="albumalt6">
+                        <input id="albumalt6" type="text" class="validate" data-length="50" name="albumalt6">
                         <label for="albumalt6">alt 6</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="albumtxt6" type="text" class="validate" data-length="120" name="albumtxt6" >
+                        <input id="albumtxt6" type="text" class="validate" data-length="50" name="albumtxt6" >
                         <label for="albumtxt6">عنوان عکس ۶</label>
                     </div>
                 </div>
 
             </div>
-        <button id="addbutton" class="waves-effect waves-light btn"  onclick="wut()" type="submit" value='select' >ثبت</button>
+        <button id="addbutton" class="waves-effect waves-light btn"  type="submit" value='upload' >ثبت</button>
 
 
         </div>

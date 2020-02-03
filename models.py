@@ -6,6 +6,7 @@ from sqlalchemy.orm import scoped_session, object_session
 from sqlalchemy_utils import EmailType
 from sqlalchemy_utils import PasswordType, force_auto_coercion
 
+
 force_auto_coercion()
 
 """
@@ -22,6 +23,7 @@ class User(db.Model):
     __tablename__ = "users"
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
     name = sa.Column(sa.String, nullable=False)
+    avatar = sa.Column(sa.String)
     lastname = sa.Column(sa.String, nullable=False)
     email = sa.Column(EmailType, nullable=False, unique=True)
     role = sa.Column(sa.String, default='Nakama')
@@ -31,14 +33,14 @@ class User(db.Model):
     posts = sa.orm.relationship("Post", back_populates="user", lazy=True)
 
     def add_post(self, aut_fav, duration, uptittle, tittle, mainp,
-                 mainimg, mainalt, tittle2, secondp, video,
+                 mainimg, mainalt, quote, tittle2, secondp, video,
                  tittle3, subtittle, thirdp, hashtags,
                  album, albumtittle, albump,
                  albumimgalt, albumimgtxt
                  ):
 
         p = Post( aut_fav=aut_fav, duration=duration, uptittle=uptittle, tittle=tittle, mainp=mainp,
-                  mainimg=mainimg, mainalt=mainalt, tittle2=tittle2, secondp=secondp, video=video,
+                  mainimg=mainimg, mainalt=mainalt, quote=quote, tittle2=tittle2, secondp=secondp, video=video,
                   tittle3=tittle3, subtittle=subtittle, thirdp=thirdp, hashtags=hashtags,
                   album=album, albumtittle=albumtittle, albump=albump,
                   albumimgalt=albumimgalt, albumimgtxt=albumimgtxt, user=self)
@@ -62,8 +64,9 @@ class Post(db.Model):
     uptittle = sa.Column(sa.String, nullable=False)
     tittle = sa.Column(sa.String, nullable=False)
     mainp = sa.Column(sa.String, nullable=False)
-    mainimg = sa.Column(sa.LargeBinary, nullable=False)
+    mainimg = sa.Column(sa.String, nullable=False)
     mainalt = sa.Column(sa.String)
+    quote = sa.Column(sa.String)
     tittle2 = sa.Column(sa.String)
     secondp = sa.Column(sa.String)
     video = sa.Column(sa.String)
@@ -72,7 +75,7 @@ class Post(db.Model):
     thirdp = sa.Column(sa.String)
     hashtags = sa.Column(sa.ARRAY(sa.String))
     albumtittle = sa.Column(sa.String)
-    album = sa.Column(sa.ARRAY(sa.LargeBinary))
+    album = sa.Column(sa.ARRAY(sa.String))
     albump = sa.Column(sa.String)
     albumimgtxt = sa.Column(sa.ARRAY(sa.String))
     albumimgalt = sa.Column(sa.ARRAY(sa.String))
