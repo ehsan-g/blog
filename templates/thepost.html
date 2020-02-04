@@ -4,8 +4,13 @@
    SAY - {{post.tittle}}
 {% endblock %}
 
+{% block headjs %}
+<script type = "text/javascript" src = "https://d3js.org/d3.v4.min.js"></script>
+{% endblock %}
+
 
 {% block body %}
+    <div id="addSvgCircle"></div>
     <div class="container" id="thepost">
         <div id="firstsec" class=" section row">
             <div id="mainimg" class="col s12 m12 l6">
@@ -14,20 +19,22 @@
             <div class="col s12 m12 l6">
                 <h6>{{ post.uptittle }}</h6>
                 <h5>{{ post.tittle }}</h5>
-                <p>{{ post.mainp }}</p>
+                <p id="mainp" >{{ post.mainp }}</p>
             </div>
         </div>
 
-        <div class="col s12 m12 l6 center">
+        <div id="quote" class="col s12 m12 l6 center">
+            <img id="quote1" src="/static/img/quotes.png">
             <blockquote>{{ post.quote }}</blockquote>
-        </div>
+            <img id="quote2" src="/static/img/quotes.png">
+        </div >
 
         <div id="secsec" class="section ">
-            <video src="{{post.video}}" controls></video>
             <h5>{{ post.tittle2 }}</h5>
+            <video class="responsive-video" controls>
+                <source src="{{post.video}}">
+            </video>
             <p class="flowtxt" >{{ post.secondp }}</p>
-
-        </div>
         </div>
 
         <div class=" section container center">
@@ -36,14 +43,67 @@
                 <p>{{ post.albump }}</p>
             </div>
         </div>
-        <div class=" section row center">
-            <div id="album" class=" section row center">
-               <div class="col s12 center"> <img src="/{{ post.album[0] }}"><p>{{ post.albumimgtxt[0] }}</p></div>
+        <div class=" section row center" >
+            <div id="album" >
+               <div id="albumwrap" >
+                   <img id="albumcoverimg" src="/{{ post.album[0] }}">
+                   <span id="albumcovertxt" class="z-depth-5">{{ post.albumimgtxt[0]}}</span>
+               </div>
+               <div id="left1" onclick="changeCover(this)" class="smallpic z-depth-3" style=" background-image: url('/{{ post.album[0] }}')"></div>
+               <div id="left2" onclick="changeCover(this)" class="smallpic z-depth-3" style=" background-image: url('/{{ post.album[1] }}')"></div>
+               <div id="left3" onclick="changeCover(this)" class="smallpic z-depth-3" style=" background-image: url('/{{ post.album[2] }}')"></div>
+               <div id="right1" onclick="changeCover(this)" class="smallpic z-depth-3" style=" background-image: url('/{{ post.album[3] }}')"></div>
+               <div id="right2" onclick="changeCover(this)" class="smallpic z-depth-3" style=" background-image: url('/{{ post.album[4] }}')"></div>
+               <div id="right3" onclick="changeCover(this)" class="smallpic z-depth-3" style=" background-image: url('/{{ post.album[5] }}')"></div>
+            </div>
+            <div id="albumRes"  >
+                <section class="transparent">
+                    <div class="carousel carousel-slider" data-indicators="true">
+                        <div class="carousel-fixed-item center text-bold">
+                            <i class="material-icons">redo</i>
+                            <p id="redobut" class="black-text">ورق بزنید</p>
+                        </div>
+                        <div class="carousel-item red lighten-2 white-text" href="#one!" style=" width: 400px; background-image: url('/{{ post.album[0] }}')">
+                            <div class="container">
+                                <div class="grads"> <h4>{{ post.albumimgtxt[0]}}</h4></div>
+                            </div>
+                        </div>
+                        <div class="carousel-item amber darken-2 white-text" href="#two!" style=" width: 400px; background-image: url('/{{ post.album[1] }}')">
+                            <div class="container">
+                                <div class="grads"><h4>{{ post.albumimgtxt[1]}}</h4></div>
+                            </div>
+                        </div>
+                        <div class="carousel-item green white-text" href="#three!" style="width: 400px; background-image: url('/{{ post.album[2] }}')">
+                            <div class="container">
+                                <div class="grads"> <h4>{{ post.albumimgtxt[2]}}</h4></div>
+                            </div>
+                        </div>
+                        <div class="carousel-item blue white-text" href="#four!" style="width: 400px; background-image: url('/{{ post.album[3] }}')">
+                            <div class="container">
+                                <div class="grads"> <h4>{{ post.albumimgtxt[3]}}</h4></div>
+                            </div>
+                        </div>
+                        <div class="carousel-item blue white-text" href="#five!" style="width: 400px; background-image: url('/{{ post.album[4] }}')">
+                            <div class="container">
+                                <div class="grads"> <h4>{{ post.albumimgtxt[4]}}</h4></div>
+                            </div>
+                        </div>
+                        <div class="carousel-item blue white-text" href="#six!" style="width: 400px; background-image: url('/{{ post.album[5] }}')">
+                            <div class="container">
+                                <div class="grads"><h4>{{ post.albumimgtxt[5]}}</h4></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
             </div>
         </div>
-
-
     </div>
-
 {% endblock %}
 
+{% block footerjs %}
+    <script src="/static/js/script.js"></script>
+    <script src="/static/js/jason/circles.js"></script>
+    <script src="/static/js/thepost.js"></script>
+{% endblock %}

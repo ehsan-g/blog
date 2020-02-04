@@ -4,11 +4,9 @@
     SAY - blog
 {% endblock %}
 {#----------------------------- JS -----------------------------------#}
-{% block head_js %}
+{% block headjs %}
     <script src="/static/js/lib/imageloader.js"></script>
     <script src="https://npmcdn.com/imagesloaded@4/imagesloaded.pkgd.js"></script>
-    <!-- Latest compiled and minified CSS -->
-{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">#}
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -20,11 +18,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 
-{% endblock head_js %}
+{% endblock headjs %}
 {#----------------------------- Body -----------------------------------#}
 
 {% block body %}
-
+<div id="index" class="container center">
+{#    <button onclick="nightmode()">Toggle dark mode</button>#}
     <div id="autFav" >
         <div class="card-panel">
             <img src="static/img/autFavImg.png">
@@ -34,7 +33,6 @@
     <div id="posts"  class="grid">
         <div class="grid-sizer"></div>
 
-
     </div>
 
 
@@ -43,7 +41,7 @@
     <script src="/static/js/home.js"></script>
     <script src="/static/js/script.js"></script>
 
-
+</div>
 {% endblock %}
 
 

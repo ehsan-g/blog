@@ -23,25 +23,32 @@
     <script type="text/javascript" src="/static/js/lib/materialize.min.js"></script>
 
 
-    {% block head_js %}
+    {% block headjs %}
 
-    {% endblock head_js %}
+    {% endblock headjs %}
 </head>
     <body id="main" >
-    <nav class="row centered white z-depth-0">
-        <a  href="http://blog.say.company" class="brand-logo center">
-            <img src="/static/img/whitelogo.png"><p>blog</p>
-        </a>
-    </nav>
-{#    <div class="container center">#}
-        {% block body %}
-        {% endblock %}
-{#    </div>#}
+        <nav class="row centered white z-depth-0">
+            <a  href="http://blog.say.company" class="brand-logo center">
+                <img src="/static/img/whitelogo.png"><p>blog</p>
+            </a>
+        </nav>
+            {% block body %}
+
+            {% endblock %}
 
 
-    <div class="section row" id="footer">
+        <div class="section row center" id="footer">
+            <a href="https://www.instagram.com/say.company/" ><img src="/static/img/footer/instagram.png"></a>
+            <a href="https://www.linkedin.com/company/say-company/" ><img src="/static/img/footer/linkedin.png"></a>
+            <a href="https://www.facebook.com/say.company/" ><img src="/static/img/footer/facebook.png"></a>
+            <a href="" ><img src="/static/img/footer/telegram.png"></a>
 
-    </div>
+        </div>
+        {% block footerjs %}
+
+
+        {% endblock footerjs %}
 
     </body>
 </html>

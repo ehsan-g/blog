@@ -3,11 +3,10 @@
 
 ## Introduction 
 
-As project saY was founded base on the philosophy of an
+As project SAY was founded base on the philosophy of an
 open-source world. We are developing a blog/media to contribute even further.
-This project will be designed and developed from scratch to fulfill saY company needs in every steps.
-All the library are linked to their documents for installation and further reading.
-
+This project will be designed and developed from scratch to fulfill SAY company needs in every steps.
+This is going to be an ongoing projects. Some of the below libraries will be used:
      
 ## Libraries
 
@@ -165,12 +164,11 @@ post was used for better understanding of Designing a RESTful API with Python an
 - [x] Create DataBase
 - [x] Receive the wireframes
 - [x] R&D libraries
-- [ ] build backEnd
-- [ ] build the front templates
-- [ ] Push my commits to Git
+- [x] build back-End
+- [x] build the front templates
+- [x] Push my commits to Git
+- [ ] Receive the first release bugs and fix them
 - [ ] Open a pull request
-- [ ] Finish changes
-- [ ] Time to SAY.
 - [ ] Adding more features.
 
 

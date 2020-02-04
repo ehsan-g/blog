@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // ---------------------------- IsoTope -------------------------------
 
 
-function imageload() {
+function imageLoad() {
 // init Isotope
     var grid = document.querySelector('.grid');
 
@@ -38,3 +38,30 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+// ---------------------------- Create Circles  -------------------------------
+whatSize();
+function makeCircle(r, left , top , color) {
+    const svg = d3.selectAll('.svg')
+    const circ = svg.append('circle')
+    circ.attr('r', r)
+    circ.attr('cx', left)
+    circ.attr('cy', top)
+    circ.style('fill', color);
+}
+// ---------------------------- Night Mode  -------------------------------
+
+function nightMode() {
+    var element = document.body;
+    element.classList.toggle("dark-mode");
+}
+
+// ---------------------------- Screen Height for svg height  -------------------------------
+whatSize();
+
+window.addEventListener("resize", whatSize);
+
+function whatSize() {
+    var x =  document.body.offsetHeight + "px";
+    document.getElementById("addSvgCircle").style.height = x;
+
+}

@@ -50,35 +50,12 @@ function load() {
 // Add a new post with given contents to DOM.
 function add_post(content) {
     // Generate a random roll.
-    const randm = Math.floor((Math.random() * 3) + 1);
 
-    if ( randm === 1){
-        var card = document.createElement('div');
-        card.className = 'grid-item';
+    var card = document.createElement('div');
+    card.className = 'grid-item';
 
-        var image = document.createElement('img');
-        image.src = "static/img/golden-hour.png";
-    }
-
-    else if ( randm === 2){
-        var card = document.createElement('div');
-        card.className = 'grid-item';
-
-        var image = document.createElement('img');
-        image.src = "static/img/office.png";
-
-
-    }
-    // Create first Div.
-    else {
-        var card = document.createElement('div');
-        card.className = 'grid-item';
-
-        var image = document.createElement('img');
-        image.src = "static/img/look-out.jpg";
-
-
-    }
+    var image = document.createElement('img');
+        image.src = content.mainimg;
 
     document.querySelector('#posts').append(card);
     card.appendChild(image);
@@ -91,16 +68,26 @@ function add_post(content) {
 
     const a = document .createElement("a");
     a.href = "posts/post/" + content.id;
+    const a2 = document.createElement('a');
+    a2.id = 'eye'
+    a2.href = "posts/post/" + content.id;
     const overtxt = document.createElement('div');
     overtxt.className = 'text';
     overtxt.innerHTML = content.tittle;
+    const icoon = document.createElement("i")
+    icoon.className = "material-icons"
+    icoon.innerText = 'remove_red_eye'
+
+
     overlay.appendChild(a);
+    overlay.appendChild(a2)
     a.appendChild(overtxt)
+    a2.appendChild(icoon)
 
 
 ;
 
-    imageload();
+    imageLoad();
 
 };
 
