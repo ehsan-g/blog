@@ -38,7 +38,7 @@ def get_count(q):
     return count
 
 
-# ver. 0.5.0
+# ver. 0.8.0
 @app.route("/")
 def index():
     return render_template("index.html")
