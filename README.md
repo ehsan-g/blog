@@ -144,11 +144,8 @@ I have no clue yet.
 
 ## Author
 
-Ehsan Ghasemi 
+Ehsan Ghasemi
 
-## License
-
-This project is licensed under pendara.co
 
 ## Acknowledgments
 
