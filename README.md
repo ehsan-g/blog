@@ -142,10 +142,6 @@ I have no clue yet.
 - HTML, Bootstrap, JavaScript
 
 
-## Versioning
-
-I will be using SQLAlchemy-Continuum for further versioning.
-
 ## Author
 
 Ehsan Ghasemi 
